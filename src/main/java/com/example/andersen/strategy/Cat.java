@@ -3,15 +3,17 @@ package com.example.andersen.strategy;
 public abstract class Cat {
     public abstract void display();
 
-   EatBehavior eatBehavior;
-   SoundBehaviour soundBehaviour;
+    EatBehavior eatBehavior;
+    SoundBehaviour soundBehaviour;
 
     public Cat() {
     }
-    public void doEat(){
+
+    public void doEat() {
         eatBehavior.eat();
     }
-    public void doSound(){
+
+    public void doSound() {
         soundBehaviour.sound();
     }
 }

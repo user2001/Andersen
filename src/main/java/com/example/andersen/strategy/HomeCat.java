@@ -1,9 +1,9 @@
 package com.example.andersen.strategy;
 
-public class HomeCat extends Cat{
+public class HomeCat extends Cat {
     public HomeCat() {
-        soundBehaviour=new RelaxCatSound();
-        eatBehavior=new NormalDiet();
+        soundBehaviour = new RelaxCatSound();
+        eatBehavior = new NormalDiet();
     }
 
     @Override

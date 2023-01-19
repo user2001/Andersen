@@ -2,9 +2,9 @@ package com.example.andersen.adapter_pattern;
 
 public class AdapterMain {
     public static void main(String[] args) {
-        OrdinaryDuck ordinaryDuck=new OrdinaryDuck();
-        ToyDuck toyDuck=new PlasticDuck();
-        ToyDuck duckAdapter=new DuckAdapter(ordinaryDuck);
+        OrdinaryDuck ordinaryDuck = new OrdinaryDuck();
+        ToyDuck toyDuck = new PlasticDuck();
+        ToyDuck duckAdapter = new DuckAdapter(ordinaryDuck);
         System.out.println("Ordinary duck: ");
         ordinaryDuck.swim();
         ordinaryDuck.makeSound();
