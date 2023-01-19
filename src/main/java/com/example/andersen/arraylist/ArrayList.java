@@ -36,7 +36,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
-        Objects.checkIndex(index, size);
+        Objects.checkIndex(index, size+1);
         resizeIfNeeded();
         System.arraycopy(elements, index, elements, index + 1, size - index);
         elements[index] = element;
