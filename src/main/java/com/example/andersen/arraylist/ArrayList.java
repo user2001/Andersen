@@ -1,6 +1,7 @@
 package com.example.andersen.arraylist;
 
 import java.util.Objects;
+import java.util.TreeMap;
 import java.util.stream.Stream;
 
 public class ArrayList<T> implements List<T> {
@@ -106,5 +107,6 @@ public class ArrayList<T> implements List<T> {
         Stream.of(elements).forEach(list::add);
         return list;
     }
+    TreeMap<Integer,String> treeMap=new TreeMap<>();
 }
 
