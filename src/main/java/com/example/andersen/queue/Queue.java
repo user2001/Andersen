@@ -1,63 +1,72 @@
 package com.example.andersen.queue;
 
-import java.util.NoSuchElementException;
-
 public class Queue {
-    private int[] arr;
-    private int front;
-    private int rear;
-    private int capacity;
-    private int count;
+    int SIZE = 5;
+    int items[] = new int[SIZE];
+    int front, rear, count;
 
-    Queue(int size) {
-        arr = new int[size];
-        capacity = size;
-        front = 0;
-        rear = 0;
-        count = 0;
-
-    }
-
-    public int remove() {
-
-        if (isEmpty()) {
-            throw new NoSuchElementException();
-        }
-        int removedElement = arr[front];
-
-        front = (front + 1) % capacity;
-        count--;
-
-        return removedElement;
-    }
-
-    public boolean add(int item) {
-        if (isFull()) {
-            throw new IllegalStateException();
-        }
-        rear = (rear + 1) % capacity;
-        arr[rear] = item;
-        rear++;
-        return true;
+    public Queue() {
+        front = -1;
+        rear = -1;
     }
 
     public boolean isFull() {
-        return (size() == capacity);
+        if (front == 0 && rear == SIZE - 1) {
+            return true;
+        }
+        return false;
     }
+
 
     public boolean isEmpty() {
-        return (size() == 0);
+        if (front == -1)
+            return true;
+        else
+            return false;
     }
 
-    public int size() {
-        return count;
+    public void add(int element) {
+        if (isFull()) {
+            System.out.println("Queue is full");
+        } else {
+            if (front == -1)
+                front = 0;
+            rear++;
+            items[rear] = element;
+            System.out.println("Inserted " + element);
+            count++;
+        }
     }
 
     public int peek() {
         if (isEmpty()) {
-            throw new NoSuchElementException();
+            System.out.println("Underflow\nProgram Terminated");
+            System.exit(-1);
         }
-        return arr[front];
+        return items[front];
+    }
+
+    public int remove() {
+        int element;
+        if (isEmpty()) {
+            System.out.println("Queue is empty");
+            return (-1);
+        } else {
+            element = items[front];
+            if (front >= rear) {
+                front = -1;
+                rear = -1;
+            } else {
+                front++;
+                count--;
+            }
+            System.out.println("Deleted -> " + element);
+            return (element);
+        }
+    }
+
+    public int size() {
+        return count;
     }
 
 }
