@@ -40,7 +40,7 @@ public class Queue {
 
     public int peek() {
         if (isEmpty()) {
-            System.out.println("Underflow\nProgram Terminated");
+            System.out.println("Program Terminated");
             System.exit(-1);
         }
         return items[front];
