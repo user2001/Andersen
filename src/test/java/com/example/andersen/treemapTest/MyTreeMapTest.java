@@ -8,8 +8,7 @@ import org.junit.jupiter.api.Test;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNullPointerException;
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class MyTreeMapTest {
@@ -26,6 +25,10 @@ public class MyTreeMapTest {
     public void insertTest() {
         Assertions.assertTrue(myTreeMap.insert(2, "Java"));
         Assertions.assertFalse(myTreeMap.insert(2, "Python"));
+    }
+    @Test
+    public void insertThrowsExceptionIfParameterIsNull() {
+        assertThatIllegalArgumentException().isThrownBy(() ->myTreeMap.insert(null,"test"));
     }
 
     @Test
