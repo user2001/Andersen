@@ -1,6 +1,6 @@
 package com.example.andersen.treemapTest;
 
-import com.example.andersen.treemap.MyTreeMap;
+import com.example.andersen.Task2.treemap.MyTreeMap;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

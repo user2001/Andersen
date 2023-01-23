@@ -1,7 +1,7 @@
 package com.example.andersen.linkedlistTest;
 
-import com.example.andersen.arraylist.List;
-import com.example.andersen.linkedlist.LinkedList;
+import com.example.andersen.Task2.arraylist.List;
+import com.example.andersen.Task2.linkedlist.LinkedList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

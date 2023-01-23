@@ -1,7 +1,7 @@
 package com.example.andersen.arraylistTest;
 
-import com.example.andersen.arraylist.ArrayList;
-import com.example.andersen.arraylist.List;
+import com.example.andersen.Task2.arraylist.ArrayList;
+import com.example.andersen.Task2.arraylist.List;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

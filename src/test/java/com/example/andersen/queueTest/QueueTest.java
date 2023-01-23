@@ -1,6 +1,6 @@
 package com.example.andersen.queueTest;
 
-import com.example.andersen.queue.Queue;
+import com.example.andersen.Task2.queue.Queue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
