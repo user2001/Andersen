@@ -1,9 +1,12 @@
 package com.example.andersen.arraylist;
 
+import lombok.extern.log4j.Log4j;
+
 import java.util.Objects;
 import java.util.TreeMap;
 import java.util.stream.Stream;
 
+@Log4j
 public class ArrayList<T> implements List<T> {
     private static int DEFAULT_CAPACITY = 10;
     private Object[] elements;
@@ -22,6 +25,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(T element) {
+        log.info("add element: " + element + " to the end of the list");
         resizeIfNeeded();
         elements[size] = element;
         size++;
@@ -37,6 +41,7 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void add(int index, T element) {
+        log.info("add element: " + element + " to the list by index: "+index);
         Objects.checkIndex(index, size+1);
         resizeIfNeeded();
         System.arraycopy(elements, index, elements, index + 1, size - index);
@@ -47,28 +52,33 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void set(int index, T element) {
+        log.info("set element: " + element + " to the list by index: "+index);
         Objects.checkIndex(index, size);
         elements[index] = element;
     }
 
     @Override
     public T get(int index) {
+        log.info("get element by index: "+index);
         Objects.checkIndex(index, size);
         return (T) elements[index];
     }
 
     @Override
     public T getFirst() {
+        log.info("get first element from the list");
         return get(0);
     }
 
     @Override
     public T getLast() {
+        log.info("get last element from the list");
         return get(size - 1);
     }
 
     @Override
     public T remove(int index) {
+        log.info("remove element from the list by index: "+index);
         Objects.checkIndex(index, size);
         T removedElement = (T) elements[index];
         System.arraycopy(elements, index + 1, elements, index, size - index - 1);
@@ -80,6 +90,7 @@ public class ArrayList<T> implements List<T> {
     public boolean contains(T element) {
         for (int i = 0; i < size; i++) {
             if (element.equals(elements[i])) {
+                log.info("list contains " + element);
                 return true;
             }
         }
@@ -98,15 +109,16 @@ public class ArrayList<T> implements List<T> {
 
     @Override
     public void clear() {
+        log.info("clear the list");
         size = 0;
         elements = new Object[DEFAULT_CAPACITY];
     }
 
     public static <T> List<T> of(T... elements) {
+        log.info("create list of elements");
         List<T> list = new ArrayList<>();
         Stream.of(elements).forEach(list::add);
         return list;
     }
-    TreeMap<Integer,String> treeMap=new TreeMap<>();
 }
 
