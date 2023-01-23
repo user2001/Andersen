@@ -4,10 +4,11 @@ public class Queue {
     int SIZE = 5;
     int items[] = new int[SIZE];
     int front, rear, count;
+    public final static int INIT_NUM = -1;
 
     public Queue() {
-        front = -1;
-        rear = -1;
+        front = INIT_NUM;
+        rear = INIT_NUM;
     }
 
     public boolean isFull() {
@@ -19,10 +20,7 @@ public class Queue {
 
 
     public boolean isEmpty() {
-        if (front == -1)
-            return true;
-        else
-            return false;
+       return front==INIT_NUM;
     }
 
     public void add(int element) {
@@ -50,12 +48,12 @@ public class Queue {
         int element;
         if (isEmpty()) {
             System.out.println("Queue is empty");
-            return (-1);
+            return (INIT_NUM);
         } else {
             element = items[front];
             if (front >= rear) {
-                front = -1;
-                rear = -1;
+                front = INIT_NUM;
+                rear = INIT_NUM;
             } else {
                 front++;
                 count--;
