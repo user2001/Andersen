@@ -77,19 +77,25 @@ public class MyTreeSet<T extends Comparable<T>> {
     public T getFirst() {
         Node node = root;
         if (node != null) {
-            while (node.left != null)
+            while (node.left != null) {
                 node = node.left;
+            }
             return (T) node.element;
-        } else throw new NoSuchElementException();
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     public T getLast() {
         Node node = root;
         if (node != null) {
-            while (node.right != null)
+            while (node.right != null) {
                 node = node.right;
+            }
             return (T) node.element;
-        } else throw new NoSuchElementException();
+        } else {
+            throw new NoSuchElementException();
+        }
     }
 
     public int size() {
