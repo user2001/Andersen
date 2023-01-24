@@ -8,26 +8,29 @@ import java.util.concurrent.*;
 public class Multithreading {
     public static final int FIXED_THREADS = 10;
 
-    public static void main(String[] args) throws InterruptedException {
+    public static void main(String[] args) throws InterruptedException, ExecutionException {
 
         MyThread myThread = new MyThread();
         Thread thread1 = new Thread(myThread, "ordinary_thread");
-        Callable task = new MyThread();
+        Callable<Boolean> task = new MyThread();
 
         ExecutorService singleThreadExecutor = Executors.newSingleThreadExecutor();
 
         ExecutorService fixedThreadPool = Executors.newFixedThreadPool(FIXED_THREADS);
 
 
-        List<Future> taskList = new ArrayList<>();
+        List<Future<Boolean>> taskList = new ArrayList<>();
         for (int i = 0; i < FIXED_THREADS; i++) {
-            Future future = fixedThreadPool.submit(task);
+            Future<Boolean> future = fixedThreadPool.submit(task);
             taskList.add(future);
         }
         taskList.add(singleThreadExecutor.submit(task));
 
 
         thread1.start();
+        for(Future<Boolean> future:taskList){
+            future.get();
+        }
         thread1.join();
 
         fixedThreadPool.shutdown();
