@@ -1,4 +1,4 @@
-package com.example.andersen;
+package com.example.andersen.Task3;
 
 public class CountingSort {
     public static int[] countingSort(int[] theArray, int maxValue) {

@@ -1,4 +1,4 @@
-package com.example.andersen;
+package com.example.andersen.Task3;
 
 public class QuickSort {
     static void quickSort(int[] arr, int begin, int end) {

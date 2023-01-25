@@ -1,4 +1,4 @@
-package com.example.andersen;
+package com.example.andersen.Task3;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
