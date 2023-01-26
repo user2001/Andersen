@@ -34,7 +34,7 @@ public class BucketService {
         }
     }
 
-    public void deleteProduct(int product_id, int deleteAmount) {
+    public boolean deleteProduct(int product_id, int deleteAmount) {
         Product product = findProductById(product_id);
 
         if (product == null) {
@@ -52,6 +52,7 @@ public class BucketService {
                 orders.remove(product);
             }
             showBucket();
+            return true;
         }
     }
 
@@ -79,5 +80,8 @@ public class BucketService {
 
     public void clearBucket() {
         orders.clear();
+    }
+    public int getBucketSize(){
+        return orders.size();
     }
 }
