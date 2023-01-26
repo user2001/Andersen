@@ -28,7 +28,7 @@ public class MenuServiceImpl implements MenuService {
 
         NotFood phone = new NotFood(7, "Phone", BigDecimal.valueOf(1000), LocalDate.of(2022, 10, 15));
         NotFood lamp = new NotFood(4, "Lamp", BigDecimal.valueOf(1000), LocalDate.of(2022, 10, 15));
-        NotFood battery = new NotFood(2, "Ecoflow", BigDecimal.valueOf(1000), LocalDate.of(2022, 10, 15));
+        NotFood battery = new NotFood(2, "EcoFlow", BigDecimal.valueOf(1000), LocalDate.of(2022, 10, 15));
         Collections.addAll(shop, bread, milk, tomato, phone, lamp, battery);
         return shop;
     }
@@ -66,7 +66,6 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void clearTheBucket() {
-        logger.info("clearing bucket");
         bucket.clearBucket();
         System.out.println("Bucket is cleared");
     }

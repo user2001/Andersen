@@ -1,3 +1,42 @@
 
 26-01-2023 17:07:37 INFO  BucketService:31 - product with id:7 in amount:2 was added to the bucket
 26-01-2023 17:08:09 INFO  BucketService:31 - product with id:7 in amount:2 was added to the bucket
+26-01-2023 20:58:46 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 20:58:46 INFO  BucketService:31 - product with id:5 in amount:2 was added to the bucket
+26-01-2023 20:58:46 INFO  BucketService:31 - product with id:10 in amount:2 was added to the bucket
+26-01-2023 20:58:46 INFO  BucketService:31 - product with id:7 in amount:2 was added to the bucket
+26-01-2023 20:58:46 INFO  BucketService:31 - product with id:4 in amount:2 was added to the bucket
+26-01-2023 20:58:46 INFO  BucketService:31 - product with id:2 in amount:2 was added to the bucket
+26-01-2023 20:58:46 INFO  BucketService:25 - product already exist in bucket
+26-01-2023 20:58:46 INFO  BucketService:28 - adding amount:2 of product id:7 to the bucket
+26-01-2023 21:01:40 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:01:40 INFO  BucketService:31 - product with id:5 in amount:2 was added to the bucket
+26-01-2023 21:01:40 INFO  BucketService:31 - product with id:10 in amount:2 was added to the bucket
+26-01-2023 21:01:40 INFO  BucketService:31 - product with id:7 in amount:2 was added to the bucket
+26-01-2023 21:01:40 INFO  BucketService:31 - product with id:4 in amount:2 was added to the bucket
+26-01-2023 21:01:40 INFO  BucketService:31 - product with id:2 in amount:2 was added to the bucket
+26-01-2023 21:01:40 ERROR BucketService:20 - Product id:1 doesn't exist
+26-01-2023 21:06:10 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:06:10 INFO  BucketService:31 - product with id:5 in amount:1 was added to the bucket
+26-01-2023 21:11:35 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:11:36 INFO  BucketService:51 - removing all products with id:8 from bucket
+26-01-2023 21:12:59 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:12:59 INFO  BucketService:51 - removing all products with id:8 from bucket
+26-01-2023 21:17:38 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:34:52 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:37:58 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:37:58 ERROR BucketService:20 - Product id:100 doesn't exist
+26-01-2023 21:41:08 INFO  BucketService:31 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:43:39 ERROR BucketService:25 - Product id:100 doesn't exist
+26-01-2023 21:47:36 INFO  BucketService:36 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:51:27 INFO  BucketService:36 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:51:28 INFO  BucketService:97 - clearing bucket
+26-01-2023 21:51:28 INFO  BucketService:36 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:51:28 INFO  BucketService:36 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:51:28 INFO  BucketService:30 - product already exist in bucket
+26-01-2023 21:51:28 INFO  BucketService:33 - adding amount:2 of product id:8 to the bucket
+26-01-2023 21:51:28 INFO  BucketService:36 - product with id:5 in amount:1 was added to the bucket
+26-01-2023 21:51:28 INFO  BucketService:36 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:51:28 INFO  BucketService:64 - removing all products with id:8 from bucket
+26-01-2023 21:51:28 INFO  BucketService:36 - product with id:8 in amount:2 was added to the bucket
+26-01-2023 21:51:28 ERROR BucketService:25 - Product id:100 doesn't exist

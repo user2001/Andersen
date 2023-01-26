@@ -14,6 +14,12 @@ public class BucketService {
     Logger logger = LoggerFactory.getLogger(BucketService.class);
 
     public void addProduct(int product_id, int addAmount) {
+
+        if (addAmount <= 0) {
+            logger.error("Invalid amount of product");
+            throw new PutWrongNumberException();
+        }
+
         Product product = findProductById(product_id);
 
         if (product == null) {
@@ -35,24 +41,36 @@ public class BucketService {
     }
 
     public boolean deleteProduct(int product_id, int deleteAmount) {
+
+        if (deleteAmount <= 0) {
+            logger.error("Invalid amount of product");
+            throw new PutWrongNumberException();
+        }
+
         Product product = findProductById(product_id);
 
         if (product == null) {
             logger.error("Product id:" + product_id + " doesn't exist");
-            throw new PutWrongNumberException("Product with id: " + product_id +
-                    " doesn't exist. Try again");
+            throw new PutWrongNumberException(String.valueOf(product_id));
         } else {
             int oldValue = orders.get(product);
             int newValue = oldValue - deleteAmount;
             if (newValue > 0) {
                 logger.info("removing " + deleteAmount + " products from bucket with id:" + product_id);
                 orders.replace(product, oldValue - deleteAmount);
+                showBucket();
+                return true;
+            } else if (newValue < 0) {
+                logger.error("Invalid amount of product");
+                throw new PutWrongNumberException();
             } else {
                 logger.info("removing all products with id:" + product_id + " from bucket");
                 orders.remove(product);
+                showBucket();
+                return true;
+
             }
-            showBucket();
-            return true;
+
         }
     }
 
@@ -79,9 +97,11 @@ public class BucketService {
     }
 
     public void clearBucket() {
+        logger.info("clearing bucket");
         orders.clear();
     }
-    public int getBucketSize(){
+
+    public int getBucketSize() {
         return orders.size();
     }
 }
