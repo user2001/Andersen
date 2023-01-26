@@ -52,7 +52,9 @@ public class MenuServiceImpl implements MenuService {
     public void deleteProductFromBucket() {
         System.out.print("Put id fo product you want to delete: ");
         int delete_ProductId=scanner.nextInt();
-        bucket.deleteProduct(delete_ProductId);
+        System.out.print("Quantity of product you want to delete: ");
+        int quantityOfProduct=scanner.nextInt();
+        bucket.deleteProduct(delete_ProductId,quantityOfProduct);
     }
 
     @Override

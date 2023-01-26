@@ -15,9 +15,12 @@ public class BucketService {
         showBucket();
     }
 
-    public void deleteProduct(int product_id) {
+    public void deleteProduct(int product_id, int count) {
         Product product = findProductById(product_id).orElseThrow(() -> new NoSuchElementException());
-        orders.remove(product);
+        int oldValue=orders.get(product);
+        if(count>0){
+            orders.replace(product,oldValue-count);
+        }
         showBucket();
     }
 
