@@ -11,7 +11,12 @@ public class BucketService {
 
     public void addProduct(int product_id, int count) {
         Product product = findProductById(product_id).orElseThrow(() -> new NoSuchElementException());
-        orders.put(product, count);
+        if (orders.containsKey(product)) {
+            int oldValue=orders.get(product);
+            orders.replace(product,oldValue+count);
+        } else {
+            orders.put(product, count);
+        }
         showBucket();
     }
 
