@@ -5,5 +5,4 @@ public interface MenuService {
     void addProductToTheBucket();
     void deleteProductFromBucket();
     void clearTheBucket();
-    void showBucket();
 }

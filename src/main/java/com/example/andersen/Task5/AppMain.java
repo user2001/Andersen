@@ -31,8 +31,8 @@ public class AppMain {
         switch (choose) {
             case 1 -> menuService.showListOfProducts();
             case 2 -> menuService.addProductToTheBucket();
-            case 3 -> System.out.println("some logic, Delete(particular) product from the bucket");
-            case 4 -> System.out.println("some logic, Clear the bucket");
+            case 3 -> menuService.deleteProductFromBucket();
+            case 4 -> menuService.clearTheBucket();
             case 0 -> System.exit(0);
             default -> {
                 System.out.println("You put wrong number, please try again");

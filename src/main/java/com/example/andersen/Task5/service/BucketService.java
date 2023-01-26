@@ -15,26 +15,23 @@ public class BucketService {
         showBucket();
     }
 
-    public void deleteProduct(long product_id) {
-
+    public void deleteProduct(int product_id) {
+        Product product = findProductById(product_id).orElseThrow(() -> new NoSuchElementException());
+        orders.remove(product);
+        showBucket();
     }
 
     public void showBucket() {
-        System.out.println("Your bucket");
-        for (Map.Entry<Product, Integer> entry : orders.entrySet()) {
-            System.out.println(entry.getKey() + ", how many: " + entry.getValue());
+        if (orders.size() > 0) {
+            System.out.println("Your bucket");
+            for (Map.Entry<Product, Integer> entry : orders.entrySet()) {
+                System.out.println(entry.getKey() + ", how many: " + entry.getValue());
+            }
+        } else {
+            System.out.println("Your bucket is empty now");
         }
     }
 
-    //    private Optional<Product> findProductById(int product_Id) {
-//        List<Product> dataOfProducts = init();
-//        int idOfNeededProduct = dataOfProducts.stream().
-//                map(Product::getId).
-//                filter(id -> id.equals(product_Id)).
-//                findFirst().get();
-//        Optional<Product> wanted = Optional.ofNullable(dataOfProducts.get(idOfNeededProduct));
-//        return wanted;
-//    }
     private Optional<Product> findProductById(int product_Id) {
         List<Product> dataOfProducts = init();
         for (Product dataOfProduct : dataOfProducts) {
@@ -43,6 +40,10 @@ public class BucketService {
                 return Optional.ofNullable(dataOfProduct);
             }
         }
-        throw  new NoSuchElementException();
+        throw new NoSuchElementException();
+    }
+
+    public void clearBucket() {
+        orders.clear();
     }
 }
