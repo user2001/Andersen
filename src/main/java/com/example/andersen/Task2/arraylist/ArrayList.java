@@ -1,15 +1,17 @@
 package com.example.andersen.Task2.arraylist;
 
-import lombok.extern.log4j.Log4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.Objects;
 import java.util.stream.Stream;
 
-@Log4j
+
 public class ArrayList<T> implements List<T> {
     private static int DEFAULT_CAPACITY = 10;
     private Object[] elements;
     private int size;
+    static Logger log = LoggerFactory.getLogger(ArrayList.class);
 
     public ArrayList(int initCapacity) {
         if (initCapacity <= 0) {

@@ -12,7 +12,8 @@ public class AppMain {
     private static final MenuService menuService = new MenuServiceImpl();
 
     public static void main(String[] args) {
-        while (true) {
+        boolean manuNeeded = true;
+        while (manuNeeded) {
             showMenu();
         }
     }
@@ -28,31 +29,18 @@ public class AppMain {
 
         Scanner scanner = new Scanner(System.in);
         int choose = scanner.nextInt();
-
-        switch (choose) {
-            case 1 -> menuService.showListOfProducts();
-            case 2 -> {
-                try {
-                    menuService.addProductToTheBucket();
-                } catch (PutWrongNumberException e) {
-                    System.out.println(e.getMessage());
-                    showMenu();
-                }
+        try {
+            switch (choose) {
+                case 1 -> menuService.showListOfProducts();
+                case 2 -> menuService.addProductToTheBucket();
+                case 3 -> menuService.deleteProductFromBucket();
+                case 4 -> menuService.clearTheBucket();
+                case 0 -> System.exit(0);
+                default -> throw new PutWrongNumberException();
             }
-            case 3 -> {
-                try {
-                    menuService.deleteProductFromBucket();
-                } catch (PutWrongNumberException e) {
-                    System.out.println(e.getMessage());
-                    showMenu();
-                }
-            }
-            case 4 -> menuService.clearTheBucket();
-            case 0 -> System.exit(0);
-            default -> {
-                System.out.println("You put wrong number, please try again");
-                showMenu();
-            }
+        } catch (PutWrongNumberException e) {
+            System.out.println(e.getMessage());
+            showMenu();
         }
     }
 }
