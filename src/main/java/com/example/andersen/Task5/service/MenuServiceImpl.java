@@ -31,6 +31,7 @@ public class MenuServiceImpl implements MenuService {
 
     @Override
     public void showListOfProducts() {
+        System.out.println("LIST OF PRODUCTS:");
         List<Product> productList=init();
         for (Product product : productList) {
             System.out.println(product);
