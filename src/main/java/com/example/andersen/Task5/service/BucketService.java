@@ -1,6 +1,7 @@
 package com.example.andersen.Task5.service;
 
 import com.example.andersen.Task5.dao.Product;
+import com.example.andersen.Task5.exception.PutWrongNumberException;
 
 import java.util.*;
 
@@ -9,22 +10,28 @@ import static com.example.andersen.Task5.service.MenuServiceImpl.init;
 public class BucketService {
     private HashMap<Product, Integer> orders = new HashMap<>();
 
-    public void addProduct(int product_id, int count) {
-        Product product = findProductById(product_id).orElseThrow(() -> new NoSuchElementException());
+    public void addProduct(int product_id, int addAmount) {
+        Product product = findProductById(product_id).
+                orElseThrow(() -> new PutWrongNumberException("Product with id: " + product_id +
+                        " doesn't exist. Try again"));
         if (orders.containsKey(product)) {
-            int oldValue=orders.get(product);
-            orders.replace(product,oldValue+count);
+            int oldValue = orders.get(product);
+            orders.replace(product, oldValue + addAmount);
         } else {
-            orders.put(product, count);
+            orders.put(product, addAmount);
         }
         showBucket();
     }
 
-    public void deleteProduct(int product_id, int count) {
-        Product product = findProductById(product_id).orElseThrow(() -> new NoSuchElementException());
-        int oldValue=orders.get(product);
-        if(count>0){
-            orders.replace(product,oldValue-count);
+    public void deleteProduct(int product_id, int deleteAmount) {
+        Product product = findProductById(product_id).
+                orElseThrow(() -> new PutWrongNumberException("Product with id: " + product_id + "doesn't exist"));
+        int oldValue = orders.get(product);
+        int newValue = oldValue - deleteAmount;
+        if (newValue > 0) {
+            orders.replace(product, oldValue - deleteAmount);
+        } else {
+            orders.remove(product);
         }
         showBucket();
     }
@@ -40,15 +47,15 @@ public class BucketService {
         }
     }
 
-    private Optional<Product> findProductById(int product_Id) {
+    private Optional<Product> findProductById(int product_id) {
         List<Product> dataOfProducts = init();
         for (Product dataOfProduct : dataOfProducts) {
             int wantedProductId = dataOfProduct.getId();
-            if (wantedProductId == product_Id) {
+            if (wantedProductId == product_id) {
                 return Optional.ofNullable(dataOfProduct);
             }
         }
-        throw new NoSuchElementException();
+        throw new PutWrongNumberException("Product with id: " + product_id + "doesn't exist");
     }
 
     public void clearBucket() {

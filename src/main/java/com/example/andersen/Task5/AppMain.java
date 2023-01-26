@@ -1,5 +1,6 @@
 package com.example.andersen.Task5;
 
+import com.example.andersen.Task5.exception.PutWrongNumberException;
 import com.example.andersen.Task5.service.MenuService;
 import com.example.andersen.Task5.service.MenuServiceImpl;
 import lombok.AllArgsConstructor;
@@ -30,8 +31,22 @@ public class AppMain {
 
         switch (choose) {
             case 1 -> menuService.showListOfProducts();
-            case 2 -> menuService.addProductToTheBucket();
-            case 3 -> menuService.deleteProductFromBucket();
+            case 2 -> {
+                try {
+                    menuService.addProductToTheBucket();
+                } catch (PutWrongNumberException e) {
+                    System.out.println(e.getMessage());
+                    showMenu();
+                }
+            }
+            case 3 -> {
+                try {
+                    menuService.deleteProductFromBucket();
+                } catch (PutWrongNumberException e) {
+                    System.out.println(e.getMessage());
+                    showMenu();
+                }
+            }
             case 4 -> menuService.clearTheBucket();
             case 0 -> System.exit(0);
             default -> {
