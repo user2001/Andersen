@@ -1,13 +1,17 @@
 package com.example.andersen.Task2.linkedlist;
 
+import com.example.andersen.Task2.arraylist.ArrayList;
 import com.example.andersen.Task2.arraylist.List;
 import lombok.extern.log4j.Log4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.NoSuchElementException;
 import java.util.Objects;
 
-@Log4j
+
 public class LinkedList<T> implements List<T> {
+    static Logger log = LoggerFactory.getLogger(LinkedList.class);
 
     static class Node<T> {
         T element;
@@ -60,7 +64,7 @@ public class LinkedList<T> implements List<T> {
             last.next = newNode;
             last = newNode;
         } else {
-            log.info("add element: " + element + " to the index: "+index+" of linkedList");
+            log.info("add element: " + element + " to the index: " + index + " of linkedList");
             Node<T> prev = getNodeByIndex(index - 1);
             newNode.next = prev.next;
             prev.next = newNode;
@@ -124,7 +128,7 @@ public class LinkedList<T> implements List<T> {
             }
 
         } else {
-            log.info("remove element from list by index: "+index);
+            log.info("remove element from list by index: " + index);
             Node<T> prev = getNodeByIndex(index - 1);
             removed = prev.next.element;
             prev.next = prev.next.next;
