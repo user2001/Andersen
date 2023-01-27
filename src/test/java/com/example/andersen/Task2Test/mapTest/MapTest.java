@@ -1,4 +1,4 @@
-package com.example.andersen.mapTest;
+package com.example.andersen.Task2Test.mapTest;
 
 import com.example.andersen.Task2.map.Map;
 import org.junit.jupiter.api.BeforeEach;

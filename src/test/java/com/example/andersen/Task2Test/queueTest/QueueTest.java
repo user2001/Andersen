@@ -1,4 +1,4 @@
-package com.example.andersen.queueTest;
+package com.example.andersen.Task2Test.queueTest;
 
 import com.example.andersen.Task2.queue.Queue;
 import org.junit.jupiter.api.BeforeEach;

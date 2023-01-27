@@ -1,4 +1,4 @@
-package com.example.andersen.linkedlistTest;
+package com.example.andersen.Task2Test.linkedlistTest;
 
 import com.example.andersen.Task2.arraylist.List;
 import com.example.andersen.Task2.linkedlist.LinkedList;

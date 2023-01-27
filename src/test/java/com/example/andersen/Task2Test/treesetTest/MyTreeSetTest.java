@@ -1,4 +1,4 @@
-package com.example.andersen.treesetTest;
+package com.example.andersen.Task2Test.treesetTest;
 
 import com.example.andersen.Task2.treeset.MyTreeSet;
 import org.junit.jupiter.api.Assertions;

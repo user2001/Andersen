@@ -1,4 +1,4 @@
-package com.example.andersen.treemapTest;
+package com.example.andersen.Task2Test.treemapTest;
 
 import com.example.andersen.Task2.treemap.MyTreeMap;
 import org.junit.jupiter.api.Assertions;

@@ -1,4 +1,4 @@
-package com.example.andersen.arraylistTest;
+package com.example.andersen.Task2Test.arraylistTest;
 
 import com.example.andersen.Task2.arraylist.ArrayList;
 import com.example.andersen.Task2.arraylist.List;
