@@ -1,12 +1,14 @@
 package com.example.andersen.Task6.warehouse;
 
 
+import com.example.andersen.Task5.exception.PutWrongNumberException;
 import com.example.andersen.Task6.currency.CurrencyName;
 import com.example.andersen.Task6.currency.Currency;
 import com.example.andersen.Task6.dao.Food;
 import com.example.andersen.Task6.dao.NotFood;
 import com.example.andersen.Task6.dao.Product;
 import jakarta.annotation.PostConstruct;
+
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -41,8 +43,38 @@ public class Warehouse {
         return allProducts;
     }
 
-    public boolean deleteProductFromWarehouse(Product product, int deleteAmount) {
-        return true;
+    public void deleteProductFromWarehouse (Product product, int deleteAmount) {
+
+        if (deleteAmount <= 0) {
+            throw new PutWrongNumberException();
+        }
+        if (product == null) {
+            throw new PutWrongNumberException(String.valueOf(product.getId()));
+        } else {
+            int oldValue = allProducts.get(product);
+            int newValue = oldValue - deleteAmount;
+            if (newValue > 0) {
+                allProducts.replace(product, oldValue - deleteAmount);
+            } else if (newValue < 0) {
+                throw new PutWrongNumberException();
+            } else {
+                allProducts.remove(product);
+            }
+        }
+    }
+
+    public void addProductToWarehouse(Product product, int addAmount) {
+
+        if (addAmount <= 0 || product == null) {
+            throw new PutWrongNumberException("Invalid data");
+        } else {
+            if (allProducts.containsKey(product)) {
+                int oldValue = allProducts.get(product);
+                allProducts.replace(product, oldValue + addAmount);
+            } else {
+                allProducts.put(product, addAmount);
+            }
+        }
     }
 
     public Map<Product, Integer> getAllProducts() {

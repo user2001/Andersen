@@ -23,8 +23,7 @@ public class NotFood extends Product {
 
     @Override
     public String toString() {
-        return "NotFood{ id=" + getId() + ", name=" + getName() + ", price=" + getPrice() +
-                " , createAtDate=" + createAtDate +
-                '}';
+        return "NotFood{ id=" + getId() + ", name=" + getName() + ", price=" + getPrice() +" "+getCurrency()+
+                " , createAtDate=" + createAtDate + '}';
     }
 }

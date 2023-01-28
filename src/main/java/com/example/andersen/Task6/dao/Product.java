@@ -20,7 +20,7 @@ public class Product {
     private final double NON_UA_PRODUCT_SELL_PERCENT = 1.8;
 
 
-    public BigDecimal sell_price(BigDecimal price) {
+    public BigDecimal sell_price() {
         if (!getCurrency().getCurrency_name().equals(CurrencyName.UAH)) {
             price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * NON_UA_PRODUCT_SELL_PERCENT));
         } else {

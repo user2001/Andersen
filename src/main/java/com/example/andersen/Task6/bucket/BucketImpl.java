@@ -1,9 +1,9 @@
 package com.example.andersen.Task6.bucket;
 
 import com.example.andersen.Task5.exception.PutWrongNumberException;
-import com.example.andersen.Task5.service.BucketService;
 import com.example.andersen.Task6.dao.Product;
 import com.example.andersen.Task6.warehouse.Warehouse;
+import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,10 +13,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+@RequiredArgsConstructor
 public class BucketImpl implements Bucket {
     private Map<Product, Integer> orders = new HashMap<>();
-    private Warehouse warehouse = new Warehouse();
-    Logger logger = LoggerFactory.getLogger(BucketService.class);
+    private final Warehouse warehouse;
+    Logger logger = LoggerFactory.getLogger(BucketImpl.class);
 
     public boolean isEnoughAmountOfProduct(int product_id, int wanted_amount) {
         int existAmount = warehouse.getAllProducts().get(findProductById(product_id));
@@ -49,7 +50,6 @@ public class BucketImpl implements Bucket {
             }
             showBucket();
         }
-
     }
 
     @Override
@@ -70,6 +70,7 @@ public class BucketImpl implements Bucket {
             if (newValue > 0) {
                 logger.info("removing " + deleteAmount + " products from bucket with id:" + product_id);
                 orders.replace(product, oldValue - deleteAmount);
+                warehouse.addProductToWarehouse(product, deleteAmount);
                 showBucket();
                 return true;
             } else if (newValue < 0) {
@@ -78,11 +79,10 @@ public class BucketImpl implements Bucket {
             } else {
                 logger.info("removing all products with id:" + product_id + " from bucket");
                 orders.remove(product);
+                warehouse.addProductToWarehouse(product, deleteAmount);
                 showBucket();
                 return true;
-
             }
-
         }
     }
 
@@ -103,7 +103,7 @@ public class BucketImpl implements Bucket {
         orders.clear();
     }
 
-    public void showBucket() {
+    private void showBucket() {
         if (orders.size() > 0) {
             System.out.println("YOUR BUCKET:");
             for (Map.Entry<Product, Integer> entry : orders.entrySet()) {
@@ -114,9 +114,18 @@ public class BucketImpl implements Bucket {
         }
     }
 
+    public Map<Product, Integer> getOrder() {
+        return orders;
+    }
+
     @Override
     public BigDecimal total_cost() {
-        return null;
+        BigDecimal total = BigDecimal.valueOf(0);
+        for (Map.Entry<Product, Integer> entry : orders.entrySet()) {
+            var priceProduct = entry.getKey().sell_price().multiply(BigDecimal.valueOf(entry.getValue()));
+            total = total.add(priceProduct);
+        }
+        return total;
     }
 
     @Override
