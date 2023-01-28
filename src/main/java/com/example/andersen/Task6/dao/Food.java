@@ -14,6 +14,7 @@ import java.time.LocalDate;
 @EqualsAndHashCode(callSuper = true)
 @NoArgsConstructor
 public class Food extends Product {
+    @ExpirationDate
     private LocalDate expirationDate;
 
     public Food(int id, String name, BigDecimal price, Currency currency,LocalDate expirationDate) {

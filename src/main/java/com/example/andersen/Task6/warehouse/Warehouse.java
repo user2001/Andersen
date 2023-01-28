@@ -4,12 +4,14 @@ package com.example.andersen.Task6.warehouse;
 import com.example.andersen.Task5.exception.PutWrongNumberException;
 import com.example.andersen.Task6.currency.CurrencyName;
 import com.example.andersen.Task6.currency.Currency;
+import com.example.andersen.Task6.dao.ExpirationDate;
 import com.example.andersen.Task6.dao.Food;
 import com.example.andersen.Task6.dao.NotFood;
 import com.example.andersen.Task6.dao.Product;
 import jakarta.annotation.PostConstruct;
 
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
@@ -43,7 +45,7 @@ public class Warehouse {
         return allProducts;
     }
 
-    public void deleteProductFromWarehouse (Product product, int deleteAmount) {
+    public void deleteProductFromWarehouse(Product product, int deleteAmount) {
 
         if (deleteAmount <= 0) {
             throw new PutWrongNumberException();
@@ -68,11 +70,26 @@ public class Warehouse {
         if (addAmount <= 0 || product == null) {
             throw new PutWrongNumberException("Invalid data");
         } else {
+            checkForExpiration(product);
             if (allProducts.containsKey(product)) {
                 int oldValue = allProducts.get(product);
                 allProducts.replace(product, oldValue + addAmount);
             } else {
                 allProducts.put(product, addAmount);
+            }
+        }
+    }
+
+    private void checkForExpiration(Product product) {
+        Field[] fields = product.getClass().getSuperclass().getDeclaredFields();
+        for (Field field : fields) {
+            if (field.isAnnotationPresent(ExpirationDate.class)) {
+                field.setAccessible(true);
+                try {
+                    field.setInt(product, 5);
+                } catch (IllegalAccessException e) {
+                    throw new RuntimeException(e);
+                }
             }
         }
     }
