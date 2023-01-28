@@ -1,6 +1,6 @@
 package com.example.andersen.Task6.dao;
 
-import com.example.andersen.Task6.Currency;
+import com.example.andersen.Task6.currency.Currency;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,14 +16,14 @@ import java.time.LocalDate;
 public class NotFood extends Product {
     private LocalDate createAtDate;
 
-    public NotFood(int id, String name, BigDecimal bought_price, BigDecimal sell_price, Currency currency, LocalDate createAtDate) {
-        super(id, name, bought_price, sell_price, currency);
+    public NotFood(int id, String name, BigDecimal price, Currency currency, LocalDate createAtDate) {
+        super(id, name, price, currency);
         this.createAtDate = createAtDate;
     }
 
     @Override
     public String toString() {
-        return "NotFood{ id=" + getId() + ", name=" + getName() + ", price=" + getBought_price() +
+        return "NotFood{ id=" + getId() + ", name=" + getName() + ", price=" + getPrice() +
                 " , createAtDate=" + createAtDate +
                 '}';
     }

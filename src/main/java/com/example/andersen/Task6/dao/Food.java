@@ -1,6 +1,6 @@
 package com.example.andersen.Task6.dao;
 
-import com.example.andersen.Task6.Currency;
+import com.example.andersen.Task6.currency.Currency;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,14 +16,14 @@ import java.time.LocalDate;
 public class Food extends Product {
     private LocalDate expirationDate;
 
-    public Food(int id, String name, BigDecimal bought_price, BigDecimal sell_price, Currency currency,LocalDate expirationDate) {
-        super(id, name, bought_price, sell_price, currency);
+    public Food(int id, String name, BigDecimal price, Currency currency,LocalDate expirationDate) {
+        super(id, name, price, currency);
         this.expirationDate = expirationDate;
     }
 
     @Override
     public String toString() {
-        return "Food{ id=" +getId()+", name="+getName()+", price="+getBought_price()+
+        return "Food{ id=" +getId()+", name="+getName()+", price="+ getPrice()+
                 " , expirationDate=" + expirationDate +
                 '}';
     }

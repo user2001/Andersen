@@ -1,18 +1,32 @@
 package com.example.andersen.Task6.dao;
 
-import com.example.andersen.Task6.Currency;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import com.example.andersen.Task6.currency.Currency;
+import com.example.andersen.Task6.currency.CurrencyName;
+import lombok.*;
 
 import java.math.BigDecimal;
-@Data
-@AllArgsConstructor
+
+@Getter
+@Setter
+@ToString
 @NoArgsConstructor
+@AllArgsConstructor
 public class Product {
     private int id;
     private String name;
-    private BigDecimal bought_price;
-    private BigDecimal sell_price;
+    private BigDecimal price;
     private Currency currency;
+    private final double UA_SELL_PERCENT = 1.2;
+    private final double NON_UA_PRODUCT_SELL_PERCENT = 1.8;
+
+
+    public BigDecimal sell_price(BigDecimal price) {
+        if (!getCurrency().getCurrency_name().equals(CurrencyName.UAH)) {
+            price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * NON_UA_PRODUCT_SELL_PERCENT));
+        } else {
+            price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * UA_SELL_PERCENT));
+        }
+        return price;
+    }
+
 }
