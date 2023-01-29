@@ -9,6 +9,7 @@ import com.example.andersen.Task6.dao.Food;
 import com.example.andersen.Task6.dao.NotFood;
 import com.example.andersen.Task6.dao.Product;
 import jakarta.annotation.PostConstruct;
+import org.springframework.stereotype.Service;
 
 
 import java.lang.reflect.Field;
@@ -16,6 +17,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.*;
 
+@Service
 public class Warehouse {
     private static Map<Product, Integer> allProducts;
 
@@ -27,13 +29,48 @@ public class Warehouse {
 
         allProducts = new HashMap<>();
 
-        Food bread = new Food(8, "Baton", BigDecimal.valueOf(20), uah, LocalDate.of(2023, 1, 30));
-        Food milk = new Food(5, "Milk", BigDecimal.valueOf(40), uah, LocalDate.of(2023, 2, 5));
-        Food tomato = new Food(10, "Tomato", BigDecimal.valueOf(3), euro, LocalDate.of(2023, 2, 10));
+        Food bread = new Food();
+        bread.setId(8);
+        bread.setName("Baton");
+        bread.setPrice(BigDecimal.valueOf(20));
+        bread.setCurrency(uah);
+        bread.setCreateAtDate(LocalDate.of(2023, 1, 30));
 
-        NotFood phone = new NotFood(7, "Phone", BigDecimal.valueOf(1000), euro, LocalDate.of(2022, 10, 15));
-        NotFood lamp = new NotFood(4, "Lamp", BigDecimal.valueOf(1000), uah, LocalDate.of(2022, 10, 15));
-        NotFood battery = new NotFood(2, "EcoFlow", BigDecimal.valueOf(200), euro, LocalDate.of(2022, 10, 15));
+        Food milk = new Food();
+        milk.setId(5);
+        milk.setName("Milk 2.5%");
+        milk.setPrice(BigDecimal.valueOf(40));
+        milk.setCurrency(uah);
+        milk.setCreateAtDate(LocalDate.of(2023, 2, 5));
+
+        Food tomato = new Food();
+        tomato.setId(10);
+        tomato.setName("Cherry tomato");
+        tomato.setPrice(BigDecimal.valueOf(3));
+        tomato.setCurrency(euro);
+        tomato.setCreateAtDate(LocalDate.of(2023, 2, 10));
+
+
+        NotFood phone = new NotFood();
+        phone.setId(7);
+        phone.setName("Iphone");
+        phone.setPrice(BigDecimal.valueOf(1000));
+        phone.setCurrency(euro);
+        phone.setCreateAtDate(LocalDate.of(2022, 10, 15));
+
+        NotFood lamp = new NotFood();
+        lamp.setId(4);
+        lamp.setName("Lamp");
+        lamp.setPrice(BigDecimal.valueOf(1000));
+        lamp.setCurrency(uah);
+        lamp.setCreateAtDate(LocalDate.of(2022, 10, 15));
+
+        NotFood battery = new NotFood();
+        battery.setId(2);
+        battery.setName("EcoFlow");
+        battery.setPrice(BigDecimal.valueOf(200));
+        battery.setCurrency(euro);
+        battery.setCreateAtDate(LocalDate.of(2022, 10, 15));
 
         allProducts.put(bread, 100);
         allProducts.put(milk, 200);
@@ -86,9 +123,12 @@ public class Warehouse {
             if (field.isAnnotationPresent(ExpirationDate.class)) {
                 field.setAccessible(true);
                 try {
-                    field.setInt(product, 5);
-                } catch (IllegalAccessException e) {
-                    throw new RuntimeException(e);
+                    if (product instanceof NotFood) {
+                        field.setInt(product, 730);
+                    } else if (product instanceof Food) {
+                        field.setInt(product, 7);
+                    }
+                } catch (IllegalAccessException ignored) {
                 }
             }
         }

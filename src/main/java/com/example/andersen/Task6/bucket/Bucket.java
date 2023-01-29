@@ -15,7 +15,7 @@ public interface Bucket {
 
     BigDecimal total_cost();
 
-    boolean saveToFile(String fileName);
+    void saveToFile();
 
     boolean loadFile(String fileName);
 
