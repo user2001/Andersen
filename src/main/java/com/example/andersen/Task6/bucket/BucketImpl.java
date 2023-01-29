@@ -3,7 +3,6 @@ package com.example.andersen.Task6.bucket;
 import com.example.andersen.Task5.exception.PutWrongNumberException;
 import com.example.andersen.Task6.dao.Product;
 import com.example.andersen.Task6.warehouse.Warehouse;
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.io.*;
@@ -14,14 +13,13 @@ import java.util.Set;
 
 @Service
 public class BucketImpl implements Bucket {
-    private Warehouse warehouse = new Warehouse();
+    private final Warehouse warehouse = new Warehouse();
     private Map<Product, Integer> orders = new HashMap<>();
-    final static String outputFilePath = "D:/Serialisation/write.txt";
 
     public boolean isEnoughAmountOfProduct(int product_id, int wanted_amount) {
-        Map<Product,Integer> map=warehouse.getAllProducts();
-        Product wanted=findProductById(product_id);
-        if(wanted==null){
+        Map<Product, Integer> map = warehouse.getAllProducts();
+        Product wanted = findProductById(product_id);
+        if (wanted == null) {
             throw new PutWrongNumberException(String.valueOf(product_id));
         }
         int existAmount = map.get(wanted);
