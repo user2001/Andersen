@@ -14,7 +14,7 @@ public class NotFood extends Product {
         return "NotFood{" +
                 "id=" + getId() +
                 ", name='" + getName() +
-                ", price=" + getPrice() +
+                ", price=" + sell_price() +
                 ", currency=" + getCurrency().getCurrency_name() +
                 ", expirationDate=" + getExpirationDate() +
                 ", createAtDate=" + getCreateAtDate() +
