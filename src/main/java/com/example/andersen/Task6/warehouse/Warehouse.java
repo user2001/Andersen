@@ -2,27 +2,27 @@ package com.example.andersen.Task6.warehouse;
 
 
 import com.example.andersen.Task5.exception.PutWrongNumberException;
-import com.example.andersen.Task6.currency.CurrencyName;
 import com.example.andersen.Task6.currency.Currency;
+import com.example.andersen.Task6.currency.CurrencyName;
 import com.example.andersen.Task6.dao.ExpirationDate;
 import com.example.andersen.Task6.dao.Food;
 import com.example.andersen.Task6.dao.NotFood;
 import com.example.andersen.Task6.dao.Product;
-import jakarta.annotation.PostConstruct;
-import org.springframework.stereotype.Service;
-
 
 import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.HashMap;
+import java.util.Map;
 
-@Service
 public class Warehouse {
     private static Map<Product, Integer> allProducts;
 
-    @PostConstruct
-    public Map<Product, Integer> init() {
+    public Warehouse() {
+        init();
+    }
+
+    private Map<Product, Integer> init() {
 
         Currency uah = new Currency("Ukraine", CurrencyName.UAH, 1);
         Currency euro = new Currency("Spain", CurrencyName.EURO, 40.2);
@@ -137,4 +137,6 @@ public class Warehouse {
     public Map<Product, Integer> getAllProducts() {
         return allProducts;
     }
+
+
 }
