@@ -94,7 +94,8 @@ public class BucketImpl implements Bucket {
         orders.clear();
     }
 
-    private void showBucket() {
+    @Override
+    public void showBucket() {
         if (orders.size() > 0) {
             System.out.println("YOUR BUCKET:");
             for (Map.Entry<Product, Integer> entry : orders.entrySet()) {

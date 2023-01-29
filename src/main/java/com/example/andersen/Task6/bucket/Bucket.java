@@ -14,6 +14,7 @@ public interface Bucket {
     boolean saveToFile(String fileName);
 
     boolean loadFile(String fileName);
+    void showBucket();
 
 
 }

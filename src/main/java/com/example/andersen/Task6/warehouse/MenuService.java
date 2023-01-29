@@ -52,6 +52,7 @@ public class MenuService {
     }
 
     public void buyProducts(){
+        bucket.showBucket();
         System.out.print("Total cost of your bucket is: "+bucket.total_cost()+ " UAH\n");
     }
     public  void saveToTheFile(){
