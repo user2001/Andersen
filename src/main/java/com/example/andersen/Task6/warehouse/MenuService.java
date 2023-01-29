@@ -55,9 +55,9 @@ public class MenuService {
         System.out.print("Total cost of your bucket is: "+bucket.total_cost()+ " UAH\n");
     }
     public  void saveToTheFile(){
-        bucket.saveToFile();
+        bucket.saveToFile("bucket");
     }
     public  void loadFile(){
-        bucket.loadFile("bucket.txt");
+        bucket.loadFile("bucket");
     }
 }

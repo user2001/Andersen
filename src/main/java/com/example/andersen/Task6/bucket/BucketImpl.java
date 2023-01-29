@@ -121,21 +121,17 @@ public class BucketImpl implements Bucket {
 
 
     @Override
-    public void saveToFile() {
-        File file = new File("bucket.txt");
+    public boolean saveToFile(String fileName) {
+        boolean result = true;
 
-        try (BufferedWriter bf = new BufferedWriter(new FileWriter(file))) {
-            for (Map.Entry<Product, Integer> entry :
-                    orders.entrySet()) {
-
-                bf.write(entry.getKey() + ", amount: "
-                        + entry.getValue());
-                bf.newLine();
-            }
-            bf.flush();
+        try (FileOutputStream fileOutputStream = new FileOutputStream(fileName);
+             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream)) {
+            objectOutputStream.writeObject(orders);
         } catch (IOException e) {
-            e.printStackTrace();
+            result = false;
         }
+
+        return result;
     }
 
     @Override
@@ -146,6 +142,7 @@ public class BucketImpl implements Bucket {
              ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream)) {
             orders = (Map<Product, Integer>) objectInputStream.readObject();
         } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
             result = false;
         }
 

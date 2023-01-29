@@ -25,12 +25,13 @@ public class Product implements Serializable {
 
 
     public BigDecimal sell_price() {
+        BigDecimal sell_price;
         if (!getCurrency().getCurrency_name().equals(CurrencyName.UAH)) {
-            price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * NON_UA_PRODUCT_SELL_PERCENT));
+            sell_price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * NON_UA_PRODUCT_SELL_PERCENT));
         } else {
-            price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * UA_SELL_PERCENT));
+            sell_price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * UA_SELL_PERCENT));
         }
-        return price;
+        return sell_price;
     }
 
 
