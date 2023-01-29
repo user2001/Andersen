@@ -8,6 +8,7 @@ public class AppMain {
     private static final MenuService menuService = new MenuService();
 
     public static void main(String[] args) {
+        menuService.loadFile();
         boolean menuNeeded = true;
         while (menuNeeded) {
             showMenu();
@@ -29,12 +30,12 @@ public class AppMain {
         try {
             switch (choose) {
                 case 1 -> menuService.showListOfProducts();
-                case 2 ->
-                        menuService.addProductToTheBucket();
+                case 2 -> menuService.addProductToTheBucket();
                 case 3 -> menuService.deleteProductFromBucket();
                 case 4 -> menuService.clearTheBucket();
-                case 5->menuService.buyProducts();
-                case 0 -> {menuService.saveToTheFile();
+                case 5 -> menuService.buyProducts();
+                case 0 -> {
+                    menuService.saveToTheFile();
                     System.exit(0);
                 }
                 default -> throw new PutWrongNumberException();
