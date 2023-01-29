@@ -16,13 +16,13 @@ import java.util.*;
 
 @NoArgsConstructor
 public class MenuService {
-    private Warehouse warehouse=new Warehouse();
+    private final Warehouse warehouse=new Warehouse();
     Scanner scanner = new Scanner(System.in);
     Bucket bucket = new BucketImpl();
 
     public void showListOfProducts() {
         System.out.println("LIST OF PRODUCTS:");
-        Set<Product> productList = warehouse.init().keySet();
+        Set<Product> productList = warehouse.getAllProducts().keySet();
         for (Product product : productList) {
             System.out.println(product);
         }
@@ -56,6 +56,8 @@ public class MenuService {
     }
     public  void saveToTheFile(){
         bucket.saveToFile();
-      //  bucket.loadFile("bucket.txt");
+    }
+    public  void loadFile(){
+        bucket.loadFile("bucket.txt");
     }
 }
