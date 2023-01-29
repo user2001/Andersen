@@ -19,6 +19,7 @@ public class MenuService {
     private final Warehouse warehouse=new Warehouse();
     Scanner scanner = new Scanner(System.in);
     Bucket bucket = new BucketImpl();
+    private final static String fileName="bucket";
 
     public void showListOfProducts() {
         System.out.println("LIST OF PRODUCTS:");
@@ -56,9 +57,9 @@ public class MenuService {
         System.out.print("Total cost of your bucket is: "+bucket.total_cost()+ " UAH\n");
     }
     public  void saveToTheFile(){
-        bucket.saveToFile("bucket");
+        bucket.saveToFile(fileName);
     }
     public  void loadFile(){
-        bucket.loadFile("bucket");
+        bucket.loadFile(fileName);
     }
 }
