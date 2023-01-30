@@ -18,25 +18,25 @@ public class BucketImpl implements Bucket {
     private final Warehouse warehouse = new Warehouse();
     private Map<Product, Integer> orders = new HashMap<>();
 
-    public boolean isEnoughAmountOfProduct(int product_id, int wanted_amount) {
+    public boolean isNotEnoughAmountOfProduct(int productId, int wantedAmount) {
         Map<Product, Integer> map = warehouse.getAllProducts();
-        Product wanted = findProductById(product_id);
+        Product wanted = findProductById(productId);
         if (wanted == null) {
-            throw new PutWrongNumberException(String.valueOf(product_id));
+            throw new PutWrongNumberException(String.valueOf(productId));
         }
         int existAmount = map.get(wanted);
-        return existAmount >= wanted_amount;
+        return existAmount < wantedAmount;
     }
 
     @Override
-    public void addProduct(int product_id, int addAmount) {
-        if (addAmount <= 0 || !isEnoughAmountOfProduct(product_id, addAmount)) {
+    public void addProduct(int productId, int addAmount) {
+        if (addAmount <= 0 || isNotEnoughAmountOfProduct(productId, addAmount)) {
             throw new PutWrongNumberException();
         }
-        Product product = findProductById(product_id);
+        Product product = findProductById(productId);
 
         if (product == null) {
-            throw new PutWrongNumberException("Product with id: " + product_id +
+            throw new PutWrongNumberException("Product with id: " + productId +
                     " doesn't exist");
         } else {
             checkForExpiration(product);
@@ -52,15 +52,15 @@ public class BucketImpl implements Bucket {
     }
 
     @Override
-    public boolean deleteProduct(int product_id, int deleteAmount) {
+    public boolean deleteProduct(int productId, int deleteAmount) {
         if (deleteAmount <= 0) {
             throw new PutWrongNumberException();
         }
 
-        Product product = findProductById(product_id);
+        Product product = findProductById(productId);
 
         if (product == null) {
-            throw new PutWrongNumberException(String.valueOf(product_id));
+            throw new PutWrongNumberException(String.valueOf(productId));
         } else {
             warehouse.addProductToWarehouse(product, deleteAmount);
             int oldValue = orders.get(product);
@@ -79,11 +79,11 @@ public class BucketImpl implements Bucket {
         }
     }
 
-    private Product findProductById(int product_id) {
+    private Product findProductById(int productId) {
         Set<Product> dataOfProducts = warehouse.getAllProducts().keySet();
         for (Product dataOfProduct : dataOfProducts) {
             int wantedProductId = dataOfProduct.getId();
-            if (wantedProductId == product_id) {
+            if (wantedProductId == productId) {
                 return dataOfProduct;
             }
         }
@@ -115,7 +115,7 @@ public class BucketImpl implements Bucket {
     public BigDecimal total_cost() {
         BigDecimal total = BigDecimal.valueOf(0);
         for (Map.Entry<Product, Integer> entry : orders.entrySet()) {
-            var priceProduct = entry.getKey().sell_price().multiply(BigDecimal.valueOf(entry.getValue()));
+            var priceProduct = entry.getKey().sellPrice().multiply(BigDecimal.valueOf(entry.getValue()));
             total = total.add(priceProduct);
         }
         return total;

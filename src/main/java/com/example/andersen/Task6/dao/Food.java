@@ -16,7 +16,7 @@ public class Food extends Product implements Serializable {
         return "Food{" +
                 "id=" + getId() +
                 ", name='" + getName() +
-                ", price=" + sell_price() +
+                ", price=" + sellPrice() +
                 ", currency=" + getCurrency().getCurrency_name() +
                 ", expirationDate=" + getExpirationDate() +
                 ", createAtDate=" + getCreateAtDate() +

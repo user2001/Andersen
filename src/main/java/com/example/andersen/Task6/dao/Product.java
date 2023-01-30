@@ -24,14 +24,14 @@ public class Product implements Serializable {
     private final double NON_UA_PRODUCT_SELL_PERCENT = 1.8;
 
 
-    public BigDecimal sell_price() {
-        BigDecimal sell_price;
+    public BigDecimal sellPrice() {
+        BigDecimal sellPrice;
         if (!getCurrency().getCurrency_name().equals(CurrencyName.UAH)) {
-            sell_price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * NON_UA_PRODUCT_SELL_PERCENT));
+            sellPrice = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * NON_UA_PRODUCT_SELL_PERCENT));
         } else {
-            sell_price = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * UA_SELL_PERCENT));
+            sellPrice = price.multiply(BigDecimal.valueOf(getCurrency().getExchangeRateIntoUAH() * UA_SELL_PERCENT));
         }
-        return sell_price;
+        return sellPrice;
     }
 
 
