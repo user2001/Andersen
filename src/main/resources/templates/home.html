@@ -1,0 +1,46 @@
+<!DOCTYPE HTML>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet"
+          integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <title>Home page</title>
+</head>
+<body>
+<div class="container">
+    <hr>
+    <h2>List of Products</h2>
+    <table class="table table-bordered table-striped">
+        <tr>
+            <th> No.</th>
+            <th> Id</th>
+            <th> Name </th>
+            <th> Price</th>
+            <th> Currency</th>
+            <th> isFood</th>
+            <th> manufactured date</th>
+            <th> expiration date</th>
+
+        </tr>
+        <tr th:each="tempProduct,state: ${products}">
+            <td th:text="${state.count}"/>
+            <td th:text="${tempProduct.getId()}"/>
+            <td th:text="${tempProduct.getName()}"/>
+            <td th:text="${tempProduct.getPrice()}"/>
+            <td th:text="${tempProduct.getCurrency()}"/>
+            <td th:text="${tempProduct.isFood()}"/>
+            <td th:text="${tempProduct.getManufactureDate()}"/>
+            <td th:text="${tempProduct.getExpirationDate()}"/>
+
+        </tr>
+
+
+    </table>
+</div>
+</body>
+</html>

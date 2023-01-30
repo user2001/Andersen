@@ -1,6 +1,5 @@
 package com.example.andersen.Task7.dto;
 
-import com.example.andersen.Task7.currency.Currency;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
@@ -19,5 +18,6 @@ public class ProductDto {
     private String currency;
     private int expirationDate;
     private LocalDate manufactureDate;
+    private int amount;
 
 }

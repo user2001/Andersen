@@ -1,13 +1,15 @@
 package com.example.andersen.Task7.model;
 
 import jakarta.persistence.*;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.List;
 
 @Entity
+@Data
 @Table(name = "orders")
-public class Order implements Serializable {
+public class Bucket implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
