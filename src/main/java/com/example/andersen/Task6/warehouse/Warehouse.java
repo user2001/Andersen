@@ -18,12 +18,7 @@ import java.util.Map;
 public class Warehouse {
     private static Map<Product, Integer> allProducts;
 
-    public Warehouse() {
-        init();
-    }
-
-    private Map<Product, Integer> init() {
-
+    static {
         Currency uah = new Currency("Ukraine", CurrencyName.UAH, 1);
         Currency euro = new Currency("Spain", CurrencyName.EURO, 40.2);
 
@@ -78,8 +73,6 @@ public class Warehouse {
         allProducts.put(phone, 1000);
         allProducts.put(lamp, 100);
         allProducts.put(battery, 80);
-
-        return allProducts;
     }
 
     public void deleteProductFromWarehouse(Product product, int deleteAmount) {
@@ -103,7 +96,6 @@ public class Warehouse {
     }
 
     public void addProductToWarehouse(Product product, int addAmount) {
-
         if (addAmount <= 0 || product == null) {
             throw new PutWrongNumberException("Invalid data");
         } else {
@@ -117,22 +109,24 @@ public class Warehouse {
         }
     }
 
-    private void checkForExpiration(Product product) {
+    public static void checkForExpiration(Product product) {
         Field[] fields = product.getClass().getSuperclass().getDeclaredFields();
         for (Field field : fields) {
             if (field.isAnnotationPresent(ExpirationDate.class)) {
                 field.setAccessible(true);
                 try {
                     if (product instanceof NotFood) {
-                        field.setInt(product, 730);
+                        product.setExpirationDate(30);
                     } else if (product instanceof Food) {
-                        field.setInt(product, 7);
+                        product.setExpirationDate(7);
                     }
-                } catch (IllegalAccessException ignored) {
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
         }
     }
+
 
     public Map<Product, Integer> getAllProducts() {
         return allProducts;

@@ -11,6 +11,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
+import static com.example.andersen.Task6.warehouse.Warehouse.checkForExpiration;
+
 @Service
 public class BucketImpl implements Bucket {
     private final Warehouse warehouse = new Warehouse();
@@ -37,13 +39,14 @@ public class BucketImpl implements Bucket {
             throw new PutWrongNumberException("Product with id: " + product_id +
                     " doesn't exist");
         } else {
+            checkForExpiration(product);
             if (orders.containsKey(product)) {
                 int oldValue = orders.get(product);
                 orders.replace(product, oldValue + addAmount);
-                warehouse.deleteProductFromWarehouse(product, addAmount);
+            //    warehouse.deleteProductFromWarehouse(product, addAmount);
             } else {
                 orders.put(product, addAmount);
-                warehouse.deleteProductFromWarehouse(product, addAmount);
+           //     warehouse.deleteProductFromWarehouse(product, addAmount);
             }
             showBucket();
         }
