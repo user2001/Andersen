@@ -1,10 +1,12 @@
 package com.example.andersen.Task7.currency;
 
+import org.springframework.stereotype.Component;
+
 import java.math.BigDecimal;
 import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.Map;
-
+@Component
 public class CurrencyResolver {
     private static final Map<Currency, BigDecimal> currencyMap=new HashMap<>();
     static {
