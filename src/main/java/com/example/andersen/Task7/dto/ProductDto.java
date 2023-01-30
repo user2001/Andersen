@@ -16,7 +16,7 @@ public class ProductDto {
     private String name;
     private boolean isFood;
     private BigDecimal price;
-    private Currency currency;
+    private String currency;
     private int expirationDate;
     private LocalDate manufactureDate;
 
