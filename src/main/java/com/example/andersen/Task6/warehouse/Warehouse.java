@@ -16,14 +16,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Warehouse {
-    private static Map<Product, Integer> allProducts;
+    protected static final Map<Product, Integer> allProducts;
 
     static {
         Currency uah = new Currency("Ukraine", CurrencyName.UAH, 1);
         Currency euro = new Currency("Spain", CurrencyName.EURO, 40.2);
-
         allProducts = new HashMap<>();
-
         Food bread = new Food();
         bread.setId(8);
         bread.setName("Baton");
@@ -83,7 +81,8 @@ public class Warehouse {
         if (product == null) {
             throw new PutWrongNumberException(String.valueOf(product.getId()));
         } else {
-            int oldValue = allProducts.get(product);
+            Map<Product, Integer> map = getAllProducts();
+            int oldValue = map.get(product);
             int newValue = oldValue - deleteAmount;
             if (newValue > 0) {
                 allProducts.replace(product, oldValue - deleteAmount);
@@ -100,8 +99,9 @@ public class Warehouse {
             throw new PutWrongNumberException("Invalid data");
         } else {
             checkForExpiration(product);
+            Map<Product, Integer> map = getAllProducts();
             if (allProducts.containsKey(product)) {
-                int oldValue = allProducts.get(product);
+                int oldValue = map.get(product);
                 allProducts.replace(product, oldValue + addAmount);
             } else {
                 allProducts.put(product, addAmount);
@@ -129,7 +129,7 @@ public class Warehouse {
 
 
     public Map<Product, Integer> getAllProducts() {
-        return allProducts;
+        return Map.copyOf(allProducts);
     }
 
 

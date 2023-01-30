@@ -40,13 +40,12 @@ public class BucketImpl implements Bucket {
                     " doesn't exist");
         } else {
             checkForExpiration(product);
+            warehouse.deleteProductFromWarehouse(product, addAmount);
             if (orders.containsKey(product)) {
                 int oldValue = orders.get(product);
                 orders.replace(product, oldValue + addAmount);
-            //    warehouse.deleteProductFromWarehouse(product, addAmount);
             } else {
                 orders.put(product, addAmount);
-           //     warehouse.deleteProductFromWarehouse(product, addAmount);
             }
             showBucket();
         }
@@ -63,18 +62,17 @@ public class BucketImpl implements Bucket {
         if (product == null) {
             throw new PutWrongNumberException(String.valueOf(product_id));
         } else {
+            warehouse.addProductToWarehouse(product, deleteAmount);
             int oldValue = orders.get(product);
             int newValue = oldValue - deleteAmount;
             if (newValue > 0) {
                 orders.replace(product, oldValue - deleteAmount);
-                warehouse.addProductToWarehouse(product, deleteAmount);
                 showBucket();
                 return true;
             } else if (newValue < 0) {
                 throw new PutWrongNumberException();
             } else {
                 orders.remove(product);
-                warehouse.addProductToWarehouse(product, deleteAmount);
                 showBucket();
                 return true;
             }
