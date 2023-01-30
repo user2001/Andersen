@@ -3,9 +3,7 @@ package com.example.andersen.Task7.service;
 import com.example.andersen.Task7.currency.Currency;
 import com.example.andersen.Task7.currency.CurrencyResolver;
 import com.example.andersen.Task7.dto.ProductDto;
-import com.example.andersen.Task7.model.Product;
 import com.example.andersen.Task7.repository.ProductRepository;
-import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +25,9 @@ public class ProductService {
         return productDto.getPrice().multiply(BigDecimal.valueOf(UA_SELL_PERCENT));
     }
 
-    public BigDecimal priceInUAH(ProductDto productDto){
-        BigDecimal sellPrice=sell_price(productDto);
-     return currencyResolver.exchangeIntoUAH(productDto.getCurrency(),sellPrice);
+    public BigDecimal priceInUAH(ProductDto productDto) {
+        BigDecimal sellPrice = sell_price(productDto);
+        return currencyResolver.exchangeIntoUAH(Currency.valueOf(productDto.getCurrency()), sellPrice);
     }
 
 }
