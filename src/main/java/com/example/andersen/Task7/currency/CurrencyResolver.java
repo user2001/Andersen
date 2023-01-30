@@ -12,7 +12,7 @@ public class CurrencyResolver {
         currencyMap.put(Currency.EURO,BigDecimal.valueOf(40.2));
         currencyMap.put(Currency.USD,BigDecimal.valueOf(38.4));
     }
-    public static BigDecimal exchangeIntoUAH(Currency currency, BigDecimal amount){
+    public BigDecimal exchangeIntoUAH(Currency currency, BigDecimal amount){
         return currencyMap.get(currency).multiply(amount);
     }
 }
