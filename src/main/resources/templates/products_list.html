@@ -27,19 +27,16 @@
             <th> expiration date</th>
 
         </tr>
-        <tr th:each="tempProduct,state: ${products}">
+        <tr th:each="tempProduct,state: ${products}" >
             <td th:text="${state.count}"/>
             <td th:text="${tempProduct.getId()}"/>
-            <td th:text="${tempProduct.getName()}"/>
-            <td th:text="${tempProduct.getPrice()}"/>
-            <td th:text="${tempProduct.getCurrency()}"/>
-            <td th:text="${tempProduct.isFood()}"/>
-            <td th:text="${tempProduct.getManufactureDate()}"/>
-            <td th:text="${tempProduct.getExpirationDate()}"/>
-
+            <td th:text="${tempProduct.name}"/>
+            <td th:text="${tempProduct.price}"/>
+            <td th:text="${tempProduct.currency.name}"/>
+            <td th:text="${tempProduct.food}"/>
+            <td th:text="${tempProduct.manufactureDate}"/>
+            <td th:text="${tempProduct.expirationDate}"/>
         </tr>
-
-
     </table>
 </div>
 </body>
