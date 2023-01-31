@@ -22,7 +22,6 @@ public class Product implements Serializable {
     @Enumerated(EnumType.STRING)
     private Currency currency;
     private LocalDate manufactureDate;
-    private int amount;
     @ManyToMany
     @JoinTable(name = "order_product",
             joinColumns = @JoinColumn(name = "product_id"),
