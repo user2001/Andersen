@@ -13,8 +13,9 @@ public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-
+    @Column(unique = true)
     private String email;
+    private String name;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<Bucket> orderList;
