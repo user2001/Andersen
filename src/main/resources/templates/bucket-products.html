@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>All Products in Bucket</title>
+</head>
+<body>
+<div class="col-md-offset-2 col-sm-8">
+    <h2 th:text="${'All Products in bucket with id= ' + bucket.id+' , owner '+ bucket.owner.name}"></h2>
+
+    <br>
+    <h3>Products:</h3>
+    <table class="table">
+        <tr>
+            <th> No.</th>
+            <th> Id</th>
+            <th> Name </th>
+            <th> Price</th>
+            <th> Currency</th>
+            <th> isFood</th>
+            <th> manufactured date</th>
+            <th> expiration date</th>
+
+        </tr>
+        <tr th:each="tempProduct,state: ${products}" >
+            <td th:text="${state.count}"/>
+            <td th:text="${tempProduct.getId()}"/>
+            <td th:text="${tempProduct.name}"/>
+            <td th:text="${tempProduct.price}"/>
+            <td th:text="${tempProduct.currency.name}"/>
+            <td th:text="${tempProduct.food}"/>
+            <td th:text="${tempProduct.manufactureDate}"/>
+            <td th:text="${tempProduct.expirationDate}"/>
+        </tr>
+    </table>
+    </table>
+    <br>
+    <h3>Bucket:</h3>
+    <span>
+        <form class="form-horizontal" th:action="@{/buckets/{id}/add(id = ${bucket.id})}" method="get">
+            <select class="form-control" name="productId" id="products">
+                <option>Select products...</option>
+                <option th:each="product : ${allProducts}" th:value="${product.id}"
+                        th:text="${product.name}"></option>
+            </select>
+            <input align="right" class="btn btn" type="submit" value="Add">
+        </form>
+    </span>
+    <br>
+    <table class="table">
+        <tr th:each="product, iStat: ${bucket.orderedProducts}">
+            <td th:text="${iStat.index + 1}"/>
+            <td>
+                <a th:href="@{|/buckets/all/users/${product.id}|}"
+                   th:text="${product.name + ' ' + product.price+' '+product.currency.name}"/>
+            </td>
+            <td>
+                <a th:href="@{/buckets/{id}/remove(id = ${bucket.id}, productId = ${product.id})}">Remove</a>
+            </td>
+        </tr>
+    </table>
+</div>
+</body>
+</html>
