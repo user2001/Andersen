@@ -1,21 +1,17 @@
 package com.example.andersen.Task7.service;
 
-import com.example.andersen.Task7.dto.ProductDto;
 import com.example.andersen.Task7.mapper.ProductMapper;
 import com.example.andersen.Task7.model.Bucket;
-import com.example.andersen.Task7.model.Product;
-import com.example.andersen.Task7.model.User;
 import com.example.andersen.Task7.repository.BucketRepository;
 import com.example.andersen.Task7.repository.ProductRepository;
 import com.example.andersen.Task7.repository.UserRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @AllArgsConstructor
@@ -26,25 +22,56 @@ public class BucketService {
 
     private final ProductMapper productMapper;
 
-    public void addProductToTheBucket(Product product, int userId) {
-        User owner = getUserById(userId);
-        Bucket bucket = new Bucket();
-        bucket.setOrderedProducts(List.of(product));
-        bucket.setOwner(owner);
-        bucketRepository.save(bucket);
+    public Bucket create(Bucket bucket) {
+        return bucketRepository.save(bucket);
     }
 
-    public User getUserById(int userId) {
-        return userRepository.findById(userId).get();
+    public Bucket getBucketById(int bucketId) {
+        return bucketRepository.findById(bucketId).get();
     }
 
-    public List<ProductDto> getAllProducts() {
-        List<Product> products = productRepository.findAll();
-        List<ProductDto> productDtoList=new ArrayList<>();
-        for (Product product:products) {
-            productDtoList.add(productMapper.toDto(product));
+    public List<Bucket> getAllBuckets() {
+        return bucketRepository.findAll();
+    }
+
+    public List<Bucket> getByUserId(int userId) {
+        List<Bucket> buckets = bucketRepository.getByUserId(userId);
+        return buckets.isEmpty() ? new ArrayList<>() : buckets;
+    }
+
+    public Bucket readById(int id) {
+        Optional<Bucket> optional = bucketRepository.findById(id);
+        if (optional.isPresent()) {
+            return optional.get();
         }
-        return products.isEmpty() ? new ArrayList<>() : productDtoList;
+        throw new EntityNotFoundException("Order with id " + id + " not found");
+    }
+
+    public void delete(int id) {
+        Bucket bucket = readById(id);
+
+        if (bucket == null) {
+            throw new EntityNotFoundException("Bucket with id " + id + " not found");
+        }
+        bucketRepository.delete(bucket);
+    }
+
+    public Bucket update(Bucket bucket) {
+
+        if (bucket == null) {
+            throw new EntityNotFoundException("ToDo can`t be null");
+        }
+        Bucket oldBucket;
+        try {
+            oldBucket = readById(bucket.getId());
+        } catch (IllegalArgumentException e) {
+            throw new EntityNotFoundException("Bucket with id " + bucket.getId() + " not found");
+        }
+
+        if (oldBucket == null) {
+            throw new EntityNotFoundException("Bucket can`t be null");
+        }
+        return bucketRepository.save(bucket);
     }
 
 
