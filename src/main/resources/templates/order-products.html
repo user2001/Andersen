@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <title>All Products in Bucket</title>
+    <title>All Products in Order</title>
 </head>
 <body>
 <div class="col-md-offset-2 col-sm-8">
@@ -60,6 +60,11 @@
             </td>
         </tr>
     </table>
+    <form th:action="@{/orders/confirm}" method="get">
+        <div align="right">
+            <input class="btn-info btn-lg" type="submit" value="Confirm">
+        </div>
+    </form>
 </div>
 </body>
 </html>

@@ -38,7 +38,7 @@ public class OrderController {
     }
 
     @PostMapping("/create/users/{owner_id}")
-    public String create(@PathVariable("owner_id") int ownerId, @ModelAttribute("bucket") Order order) {
+    public String create(@PathVariable("owner_id") int ownerId, @ModelAttribute("order") Order order) {
         order.setOwner(userService.readById(ownerId));
         orderService.create(order);
         return "redirect:/orders/all/users/" + ownerId;
@@ -47,7 +47,7 @@ public class OrderController {
     @GetMapping("/{id}/products")
     public String read(@PathVariable int id, Model model) {
         Order order = orderService.readById(id);
-        List<Product> products = productService.getAllProductInBucket(id);
+        List<Product> products = productService.getAllProductInOrder(id);
         List<Product> allProducts = productService.getAllProducts();
         List<User> users = userService.getAll().stream()
                 .filter(user -> user.getId() != order.getOwner().getId()).collect(Collectors.toList());
@@ -76,6 +76,10 @@ public class OrderController {
         order.setOrderedProducts(orderedProducts);
         orderService.update(order);
         return "redirect:/orders/" + id + "/products";
+    }
+    @GetMapping("/confirm")
+    public String confirmOrder(){
+        return "success";
     }
 
 

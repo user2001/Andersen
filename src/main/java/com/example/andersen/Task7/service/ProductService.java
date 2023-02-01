@@ -45,9 +45,9 @@ public class ProductService {
         return products.isEmpty() ? new ArrayList<>() : products;
     }
 
-    public List<Product> getAllProductInBucket(int bucketId) {
-        Order bucket = orderRepository.findById(bucketId).get();
-        return bucket.getOrderedProducts();
+    public List<Product> getAllProductInOrder(int orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        return order.getOrderedProducts();
     }
 
 
