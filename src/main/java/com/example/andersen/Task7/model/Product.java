@@ -26,6 +26,6 @@ public class Product implements Serializable {
     @JoinTable(name = "order_product",
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "order_id"))
-    private List<Bucket> orderList;
+    private List<Order> orderList;
 
 }

@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 @Data
 @Table(name = "orders")
-public class Bucket implements Serializable {
+public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;

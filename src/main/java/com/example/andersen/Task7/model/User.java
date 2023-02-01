@@ -18,5 +18,5 @@ public class User implements Serializable {
     private String name;
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
-    private List<Bucket> orderList;
+    private List<Order> orderList;
 }

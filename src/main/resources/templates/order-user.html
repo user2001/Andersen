@@ -24,14 +24,14 @@
         <tr th:each="order, iStat: ${orders}">
             <td th:text="${iStat.index + 1}"/>
             <td>
-                <a th:href="@{|/buckets/${order.id}/products|}" th:text="${order.id}"/>
+                <a th:href="@{|/orders/${order.id}/products|}" th:text="${order.id}"/>
             </td>
             <td th:text="${order.owner.name}"></td>
             <td>
-                <a th:href="@{|/buckets/${order.id}/update/users/${order.owner.id}|}">Edit</a>
+                <a th:href="@{|/orders/${order.id}/update/users/${order.owner.id}|}">Edit</a>
             </td>
             <td>
-                <a th:href="@{|/buckets/${order.id}/delete/users/${order.owner.id}|}">Remove</a>
+                <a th:href="@{|/orders/${order.id}/delete/users/${order.owner.id}|}">Remove</a>
             </td>
         </tr>
     </table>

@@ -37,7 +37,7 @@ public class UserController {
             throw new IllegalArgumentException("User cannot be null");
         }
         User newUser = userService.create(user);
-        return "redirect:/buckets/all/users/" + newUser.getId();
+        return "redirect:/orders/all/users/" + newUser.getId();
     }
 
     @GetMapping("/{id}/delete")

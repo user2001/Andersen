@@ -7,7 +7,7 @@
 </head>
 <body>
 <div class="col-md-offset-2 col-sm-8">
-    <h2 th:text="${'All Products in bucket with id= ' + bucket.id+' , owner '+ bucket.owner.name}"></h2>
+    <h2 th:text="${'All '+order.owner.name+' products from Order N= ' + order.id }"></h2>
 
     <br>
     <h3>Products:</h3>
@@ -36,9 +36,9 @@
     </table>
     </table>
     <br>
-    <h3>Bucket:</h3>
+    <h3>Order:</h3>
     <span>
-        <form class="form-horizontal" th:action="@{/buckets/{id}/add(id = ${bucket.id})}" method="get">
+        <form class="form-horizontal" th:action="@{/orders/{id}/add(id = ${order.id})}" method="get">
             <select class="form-control" name="productId" id="products">
                 <option>Select products...</option>
                 <option th:each="product : ${allProducts}" th:value="${product.id}"
@@ -49,14 +49,14 @@
     </span>
     <br>
     <table class="table">
-        <tr th:each="product, iStat: ${bucket.orderedProducts}">
+        <tr th:each="product, iStat: ${order.orderedProducts}">
             <td th:text="${iStat.index + 1}"/>
             <td>
-                <a th:href="@{|/buckets/all/users/${product.id}|}"
+                <a th:href="@{|/orders/all/users/${product.id}|}"
                    th:text="${product.name + ' ' + product.price+' '+product.currency.name}"/>
             </td>
             <td>
-                <a th:href="@{/buckets/{id}/remove(id = ${bucket.id}, productId = ${product.id})}">Remove</a>
+                <a th:href="@{/orders/{id}/remove(id = ${order.id}, productId = ${product.id})}">Remove</a>
             </td>
         </tr>
     </table>
