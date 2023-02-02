@@ -60,7 +60,7 @@
             </td>
         </tr>
     </table>
-    <form th:action="@{/orders/confirm}" method="get">
+    <form th:action="@{/orders/{id}/confirm(id=${order.id})}" method="get">
         <div align="right">
             <input class="btn-info btn-lg" type="submit" value="Confirm">
         </div>

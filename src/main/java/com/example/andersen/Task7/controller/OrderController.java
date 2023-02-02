@@ -44,6 +44,12 @@ public class OrderController {
         return "redirect:/orders/all/users/" + ownerId;
     }
 
+    @GetMapping("/{order_id}/delete/users/{owner_id}")
+    public String deleteOrder(@PathVariable("order_id") int orderId, @PathVariable("owner_id") int ownerId) {
+        orderService.delete(orderId);
+        return "redirect:/orders/all/users/" + ownerId;
+    }
+
     @GetMapping("/{id}/products")
     public String read(@PathVariable int id, Model model) {
         Order order = orderService.readById(id);
@@ -69,7 +75,7 @@ public class OrderController {
     }
 
     @GetMapping("/{id}/remove")
-    public String removeCollaborator(@PathVariable int id, @RequestParam int productId) {
+    public String removeProduct(@PathVariable int id, @RequestParam int productId) {
         Order order = orderService.readById(id);
         List<Product> orderedProducts = order.getOrderedProducts();
         orderedProducts.remove(productService.getProductById(productId));
@@ -77,8 +83,9 @@ public class OrderController {
         orderService.update(order);
         return "redirect:/orders/" + id + "/products";
     }
-    @GetMapping("/confirm")
-    public String confirmOrder(){
+    @GetMapping("/{id}/confirm")
+    public String confirmOrder(@PathVariable int id){
+        orderService.confirmOrder(id);
         return "success";
     }
 

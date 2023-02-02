@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -59,17 +60,22 @@ public class OrderService {
         if (order == null) {
             throw new EntityNotFoundException("ToDo can`t be null");
         }
-        Order oldBucket;
+        Order oldOrder;
         try {
-            oldBucket = readById(order.getId());
+            oldOrder = readById(order.getId());
         } catch (IllegalArgumentException e) {
             throw new EntityNotFoundException("Order with id " + order.getId() + " not found");
         }
 
-        if (oldBucket == null) {
+        if (oldOrder == null) {
             throw new EntityNotFoundException("Order can`t be null");
         }
         return orderRepository.save(order);
+    }
+    public void confirmOrder(int order_id){
+        Order order = readById(order_id);
+        order.setSubmit(true);
+        orderRepository.save(order);
     }
 
 
