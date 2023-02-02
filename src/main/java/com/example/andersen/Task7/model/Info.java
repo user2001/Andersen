@@ -16,7 +16,8 @@ public class Info implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private LocalDate orderCreatedAt;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Order order;
     private boolean processed;
+    private String info;
 }
