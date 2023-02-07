@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <title>All User' orders</title>
+</head>
+<body>
+<div class="col-md-offset-2 col-sm-8">
+    <h2 th:text="${'All orders of ' + user.name}"/>
+    <form th:action="@{|/orders/create/users/${user.id}|}" method="get">
+        <div align="right">
+            <input class="btn-info btn-lg" type="submit" value="Create New Order">
+        </div>
+    </form>
+    <br>
+    <table class="table">
+        <tr>
+            <th>No.</th>
+            <th>Id</th>
+            <th>Owner</th>
+            <th colspan="2">Operations</th>
+        </tr>
+        <tr th:each="order, iStat: ${orders}">
+            <td th:text="${iStat.index + 1}"/>
+            <td>
+                <a th:href="@{|/orders/${order.id}/products|}" th:text="${'Order N:'+order.id}"/>
+            </td>
+            <td th:text="${order.owner.name}"></td>
+            <td>
+                <a th:href="@{|/orders/${order.id}/update/users/${order.owner.id}|}">Edit</a>
+            </td>
+            <td>
+                <a th:href="@{|/orders/${order.id}/delete/users/${order.owner.id}|}">Remove</a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+</body>
+</html>
