@@ -1,26 +1,50 @@
 package com.example.task9_securityexpand.service;
 
+import com.example.task9_securityexpand.dto.UserRequest;
+import com.example.task9_securityexpand.dto.UserResponse;
+import com.example.task9_securityexpand.mapper.UserMapper;
 import com.example.task9_securityexpand.model.User;
 import com.example.task9_securityexpand.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
-import org.springframework.dao.InvalidDataAccessApiUsageException;
+import javax.persistence.EntityExistsException;
+import javax.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @Service
-@AllArgsConstructor
-public class UserService {
+@RequiredArgsConstructor
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
+    private final UserMapper userMapper;
 
-    public User create(User user) {
+    public UserResponse create(UserRequest userRequest) {
+        User user = userMapper.toEntity(userRequest);
         if (checkExistEmail(user.getEmail())) {
             throw new EntityNotFoundException("User with email: " + user.getEmail() + " already exist");
         }
-        return userRepository.save(user);
+        userRepository.save(user);
+        return userMapper.toDtoResponse(user);
+    }
+
+    public UserResponse singUpUser(UserRequest userRequest) {
+
+        if (getByEmail(userRequest.getEmail()) != null) {
+            throw new EntityExistsException("User with this email already exist");
+        }
+        User newUser = userMapper.toEntity(userRequest);
+        newUser.setRole(userRequest.getRole());
+
+        userRepository.save(newUser);
+        return userMapper.toDtoResponse(newUser);
+    }
+
+    private User getByEmail(String email) {
+        return userRepository.findByEmail(email);
     }
 
     private boolean checkExistEmail(String email) {
@@ -30,44 +54,52 @@ public class UserService {
         return existedMail.isPresent();
     }
 
-    public User readById(int id) {
+    public UserResponse readById(int id) {
         Optional<User> optional = userRepository.findById(id);
         if (optional.isPresent()) {
-            return optional.get();
+            return userMapper.toDtoResponse(optional.get());
         }
         throw new EntityNotFoundException("User with id: " + id + " not found");
     }
 
-    public User update(User user) {
-        if (user != null) {
-            User oldUser;
-            try {
-                oldUser = readById(user.getId());
-            } catch (IllegalArgumentException e) {
-                throw new EntityNotFoundException("User id cannot be null");
+    public UserResponse update(UserRequest userRequest, int user_id) {
+        if (userRequest != null) {
+            if (getByEmail(userRequest.getEmail()) != null) {
+                throw new EntityExistsException("User with this email already exist");
             }
-            if (oldUser != null) {
-                try {
-                    return userRepository.save(user);
-                } catch (InvalidDataAccessApiUsageException | IllegalArgumentException e) {
-                    throw new EntityNotFoundException("User cannot be null");
-                }
-            }
+            User oldUser = userRepository.findById(user_id).orElseThrow(
+                    () -> new EntityNotFoundException("User with id " + user_id + " not found"));
+            oldUser.setName(userRequest.getName());
+            oldUser.setPassword(userRequest.getPassword());
+            oldUser.setEmail(userRequest.getEmail());
+            oldUser.setRole(userRequest.getRole());
+            userRepository.save(oldUser);
+            return userMapper.toDtoResponse(oldUser);
         }
-        throw new EntityNotFoundException("User can`t be 'null'");
+        throw new IllegalArgumentException("User cannot be 'null'");
     }
 
     public void delete(int id) {
-        User user = readById(id);
-        if (user != null) {
+        UserResponse userResponse = readById(id);
+        if (userResponse != null) {
+            User user = userMapper.toEntity(userResponse);
             userRepository.delete(user);
         } else {
             throw new EntityNotFoundException("User with id " + id + " not found");
         }
     }
 
-    public List<User> getAll() {
-        List<User> users = userRepository.findAll();
-        return users.isEmpty() ? new ArrayList<>() : users;
+    public List<UserResponse> getAll() {
+        return userRepository.findAll().stream().map(userMapper::toDtoResponse).toList();
+    }
+
+
+    @Override
+    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+        User user = userRepository.findByEmail(email);
+        if (user == null) {
+            throw new UsernameNotFoundException("User not Found!");
+        }
+        return user;
     }
 }

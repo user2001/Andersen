@@ -1,79 +1,100 @@
 package com.example.task9_securityexpand.service;
 
+import com.example.task9_securityexpand.dto.OrderRequest;
+import com.example.task9_securityexpand.dto.OrderResponse;
+import com.example.task9_securityexpand.dto.ProductResponse;
+import com.example.task9_securityexpand.mapper.OrderMapper;
 import com.example.task9_securityexpand.mapper.ProductMapper;
 import com.example.task9_securityexpand.model.Order;
+import com.example.task9_securityexpand.model.Product;
 import com.example.task9_securityexpand.repository.OrderRepository;
-import jakarta.persistence.EntityNotFoundException;
-import lombok.AllArgsConstructor;
+import com.example.task9_securityexpand.repository.ProductRepository;
+import com.example.task9_securityexpand.repository.UserRepository;
+import javax.persistence.EntityNotFoundException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class OrderService {
-    private final OrderRepository orderRepository;
-
+    private final OrderMapper orderMapper;
     private final ProductMapper productMapper;
+    private final OrderRepository orderRepository;
+    private final UserRepository userRepository;
+    private final ProductRepository productRepository;
 
-    public Order create(Order order) {
-        return orderRepository.save(order);
+    public void create(OrderRequest orderRequest) {
+        Order order = orderMapper.toEntity(orderRequest);
+        orderRepository.save(order);
     }
 
-    public Order getBucketById(int orderId) {
-        return orderRepository.findById(orderId).get();
+    public List<OrderResponse> getAllOrders() {
+        return orderRepository.findAll().stream().map(orderMapper::toDto).toList();
     }
 
-    public List<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public OrderResponse getById(int orderId) {
+        Order order = orderRepository.findById(orderId).get();
+        return orderMapper.toDto(order);
     }
 
-    public List<Order> getByUserId(int userId) {
-        List<Order> orders = orderRepository.getByUserId(userId);
-        return orders.isEmpty() ? new ArrayList<>() : orders;
+    public void delete(int orderId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order with id:" + orderId + " not found"));
+        orderRepository.delete(order);
     }
 
-    public Order readById(int id) {
+    public OrderResponse readById(int id) {
         Optional<Order> optional = orderRepository.findById(id);
         if (optional.isPresent()) {
-            return optional.get();
+            return orderMapper.toDto(optional.get());
         }
         throw new EntityNotFoundException("Order with id " + id + " not found");
     }
 
-    public void delete(int id) {
-        Order order = readById(id);
-
-        if (order == null) {
-            throw new EntityNotFoundException("Order with id " + id + " not found");
-        }
-        orderRepository.delete(order);
+    public List<OrderResponse> getByUserId(int userId) {
+        return orderRepository.getByUserId(userId).stream().map(orderMapper::toDto).toList();
     }
 
-    public Order update(Order order) {
+    public List<ProductResponse> getOrderProducts(int orderId) {
 
-        if (order == null) {
-            throw new EntityNotFoundException("ToDo can`t be null");
-        }
-        Order oldOrder;
-        try {
-            oldOrder = readById(order.getId());
-        } catch (IllegalArgumentException e) {
-            throw new EntityNotFoundException("Order with id " + order.getId() + " not found");
-        }
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order with id " + orderId + " not found"));
 
-        if (oldOrder == null) {
-            throw new EntityNotFoundException("Order can`t be null");
-        }
-        return orderRepository.save(order);
-    }
-    public void confirmOrder(int order_id){
-        Order order = readById(order_id);
-        order.setSubmit(true);
-        orderRepository.save(order);
+        return order.getOrderedProducts()
+                .stream()
+                .map(productMapper::toDto)
+                .toList();
     }
 
+    @Transactional
+    public void addProduct(int orderId, int productId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order with id " + orderId + " not found"));
+
+        Product product = productRepository.findById(productId).orElseThrow(
+                () -> new EntityNotFoundException("Product with id " + productId + " not found"));
+
+        List<Product> orderProducts = order.getOrderedProducts();
+        orderProducts.add(product);
+    }
+
+
+    @Transactional
+    public void removeProduct(int orderId, int productId) {
+        Order order = orderRepository.findById(orderId).orElseThrow(
+                () -> new EntityNotFoundException("Order with id " + orderId + " not found"));
+
+        Product product = productRepository.findById(productId).orElseThrow(
+                () -> new EntityNotFoundException("Product with id " + productId + " not found"));
+
+        List<Product> orderProducts = order.getOrderedProducts();
+        orderProducts.remove(product);
+    }
 
 }
+

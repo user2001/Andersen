@@ -1,6 +1,6 @@
 package com.example.task9_securityexpand.model;
 
-import jakarta.persistence.*;
+import javax.persistence.*;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -23,7 +23,5 @@ public class Order implements Serializable {
             joinColumns = @JoinColumn(name = "order_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id"))
     private List<Product> orderedProducts;
-    @Column(name = "submit")
-    private boolean submit;
 
 }
