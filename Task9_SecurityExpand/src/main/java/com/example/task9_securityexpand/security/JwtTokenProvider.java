@@ -20,14 +20,14 @@ public class JwtTokenProvider {
     @Value("${jwtSecret}")
     private String secret;
 
-    public String generateToken(String username) {
+    public String generateToken(String email) {
         // current time from current timeZone + milliseconds value from application.properties file
         Date expirationDate = Date.from(ZonedDateTime.now().toInstant().plusMillis(expirationMs));
         return JWT.create()
                 .withSubject("User details") // what will be stored in the jwt token
-                .withClaim("username", username)
+                .withClaim("email", email)
                 .withIssuedAt(new Date())
-                .withIssuer("TodoApp")
+                .withIssuer("AndersenApp")
                 .withExpiresAt(expirationDate)
                 .sign(Algorithm.HMAC256(secret));
     }
@@ -35,11 +35,11 @@ public class JwtTokenProvider {
     public String validateTokenAndRetrieveClaim(String token) throws JWTVerificationException {
         JWTVerifier verifier = JWT.require(Algorithm.HMAC256(secret))
                 .withSubject("User details")
-                .withIssuer("TodoApp")
+                .withIssuer("AndersenApp")
                 .build(); // only token with these data will pass the validation
 
         DecodedJWT jwt = verifier.verify(token);
         // return username value from token
-        return jwt.getClaim("username").asString();
+        return jwt.getClaim("email").asString();
     }
 }

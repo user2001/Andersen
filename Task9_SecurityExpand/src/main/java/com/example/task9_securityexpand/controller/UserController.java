@@ -28,11 +28,6 @@ public class UserController {
         return userService.getAll();
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public void createUser(@RequestBody UserRequest userRequest) {
-        userService.create(userRequest);
-    }
 
     @DeleteMapping("/{id}")
     public String deleteUser(@PathVariable int id) {

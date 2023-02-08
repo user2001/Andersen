@@ -1,7 +1,5 @@
 package com.example.task9_securityexpand.security;
 
-import com.example.task9_securityexpand.filter.CustomAuthenticationFilter;
-import com.example.task9_securityexpand.model.Role;
 import com.example.task9_securityexpand.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +13,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
@@ -27,19 +24,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
     private final WebAccessDeniedHandler webAccessDeniedHandler;
     private final JwtTokenFilter jwtTokenFilter;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        CustomAuthenticationFilter customAuthenticationFilter = new CustomAuthenticationFilter(authenticationManagerBean());
 
         http
                 .csrf().disable()
                 .authorizeRequests()
                 .antMatchers("/api/auth/**", "/api/v2/products").permitAll()
-                .antMatchers(HttpMethod.GET, "/api/v2/products/**", "/api/v2/users/**").hasRole(Role.ADMIN.name())
-                .antMatchers("/api/v2/products/**").hasRole(Role.MANAGER.name())
-                .antMatchers("/api/v2/orders/**").hasRole(Role.USER.name())
+                .antMatchers(HttpMethod.GET, "/api/v2/products/**", "/api/v2/users/**", "/api/v2/orders/**").hasAuthority("ADMIN")
+                .antMatchers(HttpMethod.POST, "/api/v2/products/**").hasAuthority("MANAGER")
+                .antMatchers(HttpMethod.PUT, "/api/v2/products/**").hasAuthority("MANAGER")
+                .antMatchers(HttpMethod.DELETE, "/api/v2/products/**").hasAuthority("MANAGER")
                 .and()
                 .headers(h -> h
                         .frameOptions() // for Postman, the H2 console
@@ -56,12 +53,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
-    }
-
-    @Bean
-    PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
 
     @Bean

@@ -5,12 +5,15 @@ import com.example.task9_securityexpand.dto.UserResponse;
 import com.example.task9_securityexpand.mapper.UserMapper;
 import com.example.task9_securityexpand.model.User;
 import com.example.task9_securityexpand.repository.UserRepository;
+
 import javax.persistence.EntityExistsException;
 import javax.persistence.EntityNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,6 +24,7 @@ import java.util.Optional;
 public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final UserMapper userMapper;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     public UserResponse create(UserRequest userRequest) {
         User user = userMapper.toEntity(userRequest);
@@ -36,10 +40,16 @@ public class UserService implements UserDetailsService {
         if (getByEmail(userRequest.getEmail()) != null) {
             throw new EntityExistsException("User with this email already exist");
         }
-        User newUser = userMapper.toEntity(userRequest);
+        User newUser = new User();
+        newUser.setName(userRequest.getName());
+        newUser.setEmail(userRequest.getEmail());
         newUser.setRole(userRequest.getRole());
+        newUser.setPassword(userRequest.getPassword());
+        String encodedPassword = bCryptPasswordEncoder.encode(newUser.getPassword());
+        newUser.setPassword(encodedPassword);
 
         userRepository.save(newUser);
+
         return userMapper.toDtoResponse(newUser);
     }
 
