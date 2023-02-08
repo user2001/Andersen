@@ -3,6 +3,7 @@ package com.example.task9_securityexpand.controller;
 import com.example.task9_securityexpand.dto.OrderResponse;
 import com.example.task9_securityexpand.dto.UserRequest;
 import com.example.task9_securityexpand.dto.UserResponse;
+import com.example.task9_securityexpand.model.Order;
 import com.example.task9_securityexpand.service.OrderService;
 import com.example.task9_securityexpand.service.ProductService;
 import com.example.task9_securityexpand.service.UserService;
@@ -20,8 +21,6 @@ import java.util.Map;
 @RequestMapping("/api/v2/users")
 public class UserController {
     private final UserService userService;
-    private final OrderService orderService;
-    private final ProductService productService;
 
     @GetMapping
     public List<UserResponse> getAll() {
@@ -30,6 +29,7 @@ public class UserController {
 
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('ADMIN')" +"or authentication.principal.userId == #id")
     public String deleteUser(@PathVariable int id) {
         userService.delete(id);
         return "user deleted";
@@ -38,21 +38,6 @@ public class UserController {
     @GetMapping("/{id}")
     public UserResponse getUserById(@PathVariable int id) {
         return userService.readById(id);
-    }
-
-   // @PreAuthorize("hasAuthority('USER')")
-    @GetMapping("/{userId}/orders")
-    public List<OrderResponse> getUsersOrders(@PathVariable int userId) {
-        return orderService.getByUserId(userId);
-    }
-
-    @GetMapping("/{userId}/orders/{orderId}/products")
-    public Map<String, Object> getUsersProductsFromOrder(@PathVariable int userId, @PathVariable int orderId) {
-        Map<String, Object> response = new HashMap<>();
-        response.put("status", HttpStatus.OK.toString());
-        response.put("order", orderService.getByUserId(userId));
-        response.put("products", productService.getByOrderId(orderId));
-        return response;
     }
 
 

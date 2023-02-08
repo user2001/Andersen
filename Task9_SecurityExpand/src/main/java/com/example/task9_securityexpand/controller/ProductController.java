@@ -4,10 +4,10 @@ import com.example.task9_securityexpand.dto.ProductRequest;
 import com.example.task9_securityexpand.dto.ProductResponse;
 import com.example.task9_securityexpand.mapper.ProductMapper;
 import com.example.task9_securityexpand.model.Product;
-import com.example.task9_securityexpand.service.OrderService;
 import com.example.task9_securityexpand.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,10 +21,10 @@ import java.util.Map;
 @RequestMapping("/api/v2/products")
 public class ProductController {
     private final ProductService productService;
-    private final OrderService orderService;
     private final ProductMapper productMapper;
 
     @PostMapping("/create")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponse createProduct(@RequestBody ProductRequest productRequest) {
         return productService.create(productRequest);
@@ -37,6 +37,7 @@ public class ProductController {
     }
 
     @PutMapping("/{id}")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @ResponseStatus(HttpStatus.CREATED)
     public ProductResponse update(@Validated @RequestBody ProductResponse productResponse,
                                   @PathVariable int id) {
@@ -49,6 +50,7 @@ public class ProductController {
     }
 
     @DeleteMapping("/{id}")
+    @PreAuthorize("hasAuthority('MANAGER')")
     @ResponseStatus(HttpStatus.OK)
     public Map<String, Object> deleteProduct(@PathVariable int id) {
         Map<String, Object> response = new HashMap<>();
@@ -61,7 +63,7 @@ public class ProductController {
         return response;
     }
 
-    @GetMapping
+    @GetMapping("/all")
     @ResponseStatus(HttpStatus.OK)
     public List<ProductResponse> getAll() {
         return productService.getAll();

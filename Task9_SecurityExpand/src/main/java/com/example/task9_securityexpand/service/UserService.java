@@ -72,23 +72,6 @@ public class UserService implements UserDetailsService {
         throw new EntityNotFoundException("User with id: " + id + " not found");
     }
 
-    public UserResponse update(UserRequest userRequest, int user_id) {
-        if (userRequest != null) {
-            if (getByEmail(userRequest.getEmail()) != null) {
-                throw new EntityExistsException("User with this email already exist");
-            }
-            User oldUser = userRepository.findById(user_id).orElseThrow(
-                    () -> new EntityNotFoundException("User with id " + user_id + " not found"));
-            oldUser.setName(userRequest.getName());
-            oldUser.setPassword(userRequest.getPassword());
-            oldUser.setEmail(userRequest.getEmail());
-            oldUser.setRole(userRequest.getRole());
-            userRepository.save(oldUser);
-            return userMapper.toDtoResponse(oldUser);
-        }
-        throw new IllegalArgumentException("User cannot be 'null'");
-    }
-
     public void delete(int id) {
         UserResponse userResponse = readById(id);
         if (userResponse != null) {
@@ -112,4 +95,6 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+
+
 }

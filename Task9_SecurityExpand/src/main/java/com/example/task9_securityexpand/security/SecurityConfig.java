@@ -32,18 +32,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**", "/api/v2/products").permitAll()
+                .antMatchers("/api/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET,"/api/v2/products/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v2/products/**", "/api/v2/users/**", "/api/v2/orders/**").hasAuthority("ADMIN")
-                .antMatchers(HttpMethod.POST, "/api/v2/products/**").hasAuthority("MANAGER")
-                .antMatchers(HttpMethod.PUT, "/api/v2/products/**").hasAuthority("MANAGER")
-                .antMatchers(HttpMethod.DELETE, "/api/v2/products/**").hasAuthority("MANAGER")
+                .anyRequest().hasAnyAuthority("USER", "ADMIN","MANAGER")
                 .and()
-                .headers(h -> h
-                        .frameOptions() // for Postman, the H2 console
-                        .disable()
-                )
+                .headers(h -> h.frameOptions().disable())
                 .sessionManagement(sm -> sm
-                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS) // no session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 );
 
         http.exceptionHandling().accessDeniedHandler(webAccessDeniedHandler);

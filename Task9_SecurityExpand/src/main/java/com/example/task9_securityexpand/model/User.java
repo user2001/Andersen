@@ -1,6 +1,7 @@
 package com.example.task9_securityexpand.model;
 
 import javax.persistence.*;
+
 import lombok.Data;
 import org.hibernate.Hibernate;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,6 +29,7 @@ public class User implements Serializable, UserDetails {
 
     @OneToMany(mappedBy = "owner", cascade = CascadeType.REMOVE)
     private List<Order> orderList;
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         SimpleGrantedAuthority authority = new SimpleGrantedAuthority(role.name());
@@ -57,6 +59,10 @@ public class User implements Serializable, UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public User getPerson() {
+        return this;
     }
 
 }

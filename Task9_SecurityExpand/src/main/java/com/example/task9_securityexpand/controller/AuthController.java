@@ -9,7 +9,6 @@ import com.example.task9_securityexpand.service.AuthService;
 import com.example.task9_securityexpand.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,14 +43,13 @@ public class AuthController {
 
     @PostMapping("/register")
     @ResponseStatus(HttpStatus.CREATED)
-    public  UserResponse createUser(@RequestBody UserRequest userRequest) {
+    public UserResponse createUser(@RequestBody UserRequest userRequest) {
         return userService.singUpUser(userRequest);
     }
 
 
-
     @GetMapping("/error/forbidden")
     public String forbiddenError() {
-        throw new AccessDeniedException("You cannot access this page");
+        return "You cannot access this page";
     }
 }
