@@ -3,6 +3,7 @@ package com.example.task9_securityexpand.security;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.example.task9_securityexpand.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class JwtTokenFilter extends OncePerRequestFilter {
@@ -30,7 +31,8 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             throws ServletException, IOException {
 
         String authHeader = httpServletRequest.getHeader("Authorization");
-        if (authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Bearer ")) {
+        boolean isHeaderValid = authHeader != null && !authHeader.isBlank() && authHeader.startsWith("Bearer ");
+        if (isHeaderValid) {
             String jwt = authHeader.substring(7);
 
             if (jwt.isBlank()) {
@@ -59,4 +61,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
         filterChain.doFilter(httpServletRequest, httpServletResponse);
     }
+
+
 }

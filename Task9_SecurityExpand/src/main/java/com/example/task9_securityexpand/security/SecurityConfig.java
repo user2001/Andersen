@@ -2,6 +2,7 @@ package com.example.task9_securityexpand.security;
 
 import com.example.task9_securityexpand.service.UserService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
@@ -15,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+@Slf4j
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -30,12 +32,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
 
         http
+
                 .csrf().disable()
                 .authorizeRequests()
-                .antMatchers("/api/auth/**").permitAll()
-                .antMatchers(HttpMethod.GET,"/api/v2/products/**").permitAll()
+                .antMatchers("/api/v1/auth/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/api/v2/products/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/api/v2/products/**", "/api/v2/users/**", "/api/v2/orders/**").hasAuthority("ADMIN")
-                .anyRequest().hasAnyAuthority("USER", "ADMIN","MANAGER")
+                .anyRequest().hasAnyAuthority("USER", "ADMIN", "MANAGER")
                 .and()
                 .headers(h -> h.frameOptions().disable())
                 .sessionManagement(sm -> sm
